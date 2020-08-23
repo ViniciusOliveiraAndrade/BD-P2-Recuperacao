@@ -7,12 +7,12 @@ import br.ufpe.cin.model.Transacao;
 import br.ufpe.cin.view.GerenciadoTransacaoPanel;
 import br.ufpe.cin.view.TransacaoHolder;
 
-public class MenuHandler extends AbstractHandler {
+public class ImediataBMenuHandler extends AbstractHandler {
 	
 	private ArrayList<TransacaoHolder> transacoes;
 	private int tCount;
 	
-	public MenuHandler(GerenciadoTransacaoPanel gtp) {
+	public ImediataBMenuHandler(GerenciadoTransacaoPanel gtp) {
 		super(gtp);
 		this.getGtp().getMenuHolder().getAddButton().addActionListener(this);
 		

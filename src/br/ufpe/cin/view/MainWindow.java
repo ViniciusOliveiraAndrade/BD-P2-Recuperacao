@@ -10,7 +10,6 @@ public class MainWindow extends JFrame{
 	
 	private TabHolder tabHolder;
 	
-	
 	public MainWindow() {
 		this.setSize(900, 600);
 		this.setTitle("Recuparação de Trasação");

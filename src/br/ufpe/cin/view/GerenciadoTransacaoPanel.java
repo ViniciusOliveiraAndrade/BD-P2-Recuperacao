@@ -4,9 +4,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
-import br.ufpe.cin.control.handlers.AbstractHandler;
-import br.ufpe.cin.control.handlers.MenuHandler;
-
 public class GerenciadoTransacaoPanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
@@ -15,9 +12,6 @@ public class GerenciadoTransacaoPanel extends JPanel{
 	private MemoriaHolder logHolder;
 	private MemoriaHolder discoHolder;
 	private MenuPanel menuHolder;
-	
-	@SuppressWarnings("unused")
-	private AbstractHandler menuHandler;
 	
 	public GerenciadoTransacaoPanel() {
 		this.setLayout(new GridLayout(0, 2, 5, 5));
@@ -30,8 +24,6 @@ public class GerenciadoTransacaoPanel extends JPanel{
 		this.add(this.logHolder.getPanel());
 		this.add(this.discoHolder.getPanel());
 		this.add(this.menuHolder);
-		
-		this.menuHandler = new MenuHandler(this);
 	}
 
 	public MemoriaHolder getCacheHolder() {
