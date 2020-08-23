@@ -1,23 +1,20 @@
 package br.ufpe.cin.control.handlers;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import br.ufpe.cin.model.Transacao;
 import br.ufpe.cin.view.GerenciadoTransacaoPanel;
 import br.ufpe.cin.view.TransacaoHolder;
 
-public class MenuHandler implements ActionListener {
-	
-	private GerenciadoTransacaoPanel gtp;
+public class MenuHandler extends AbstractHandler {
 	
 	private ArrayList<TransacaoHolder> transacoes;
 	private int tCount;
 	
 	public MenuHandler(GerenciadoTransacaoPanel gtp) {
-		this.gtp = gtp;
-		this.gtp.getMenuHolder().getAddButton().addActionListener(this);
+		super(gtp);
+		this.getGtp().getMenuHolder().getAddButton().addActionListener(this);
 		
 		this.transacoes = new ArrayList<TransacaoHolder>();
 		
@@ -27,9 +24,9 @@ public class MenuHandler implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==this.gtp.getMenuHolder().getAddButton()) {
+		if (e.getSource()==this.getGtp().getMenuHolder().getAddButton()) {
 			TransacaoHolder th = new TransacaoHolder(new Transacao(this.tCount ++));
-			this.gtp.getCacheHolder().addTransacao(th);
+			this.getGtp().getCacheHolder().addTransacao(th);
 			this.transacoes.add(th);
 		}
 		

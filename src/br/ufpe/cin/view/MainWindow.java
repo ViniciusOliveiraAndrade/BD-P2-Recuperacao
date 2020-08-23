@@ -10,8 +10,6 @@ public class MainWindow extends JFrame{
 	
 	private TabHolder tabHolder;
 	
-
-//	private InfoPanel infoPanel;
 	
 	public MainWindow() {
 		this.setSize(900, 600);
@@ -19,12 +17,9 @@ public class MainWindow extends JFrame{
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setExtendedState(MAXIMIZED_BOTH);
-	
-//		this.infoPanel = new InfoPanel();
 		
 		this.tabHolder = new TabHolder();
 		
-//		add(infoPanel, BorderLayout.PAGE_START);
 		this.add(this.tabHolder,BorderLayout.CENTER);
 		
 		this.setVisible(true);

@@ -1,5 +1,8 @@
 package br.ufpe.cin.view;
 
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,6 +31,8 @@ public class TransacaoHolder extends JPanel {
 		this.add(this.indicadorLabel);
 		this.add(this.updateButton);
 		this.add(this.commitButton);
+		
+		this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
 	public Transacao getT() {

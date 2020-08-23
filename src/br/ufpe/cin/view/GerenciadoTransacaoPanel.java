@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import br.ufpe.cin.control.handlers.AbstractHandler;
 import br.ufpe.cin.control.handlers.MenuHandler;
 
 public class GerenciadoTransacaoPanel extends JPanel{
@@ -16,7 +17,7 @@ public class GerenciadoTransacaoPanel extends JPanel{
 	private MenuPanel menuHolder;
 	
 	@SuppressWarnings("unused")
-	private MenuHandler menuHandler;
+	private AbstractHandler menuHandler;
 	
 	public GerenciadoTransacaoPanel() {
 		this.setLayout(new GridLayout(0, 2, 5, 5));
