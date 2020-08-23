@@ -35,8 +35,7 @@ public class MemoriaHolder extends JPanel{
         
         try {
         	this.add(new JLabel(tipo+ ++index));
-     	   	this.revalidate();
-     	   	this.repaint();
+     	   	this.update();
      	   	
          } catch (Exception e) {
             e.printStackTrace();
@@ -45,8 +44,12 @@ public class MemoriaHolder extends JPanel{
         }
     }
 	
+	private void update() {
+		this.revalidate();
+ 	   	this.repaint();
+	}
 	public void removerComponent(Component comp) {
 		this.remove(comp);
-		
+		this.update();
 	}
 }
