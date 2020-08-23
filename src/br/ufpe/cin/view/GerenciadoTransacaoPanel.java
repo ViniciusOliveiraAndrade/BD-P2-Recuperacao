@@ -13,7 +13,7 @@ public class GerenciadoTransacaoPanel extends JPanel{
 	private MemoriaHolder cache;
 	private MemoriaHolder log;
 	private MemoriaHolder disco;
-//	private MemoriaHolder disco;
+	private MenuPanel menu;
 	
 	
 	public GerenciadoTransacaoPanel() {
@@ -21,12 +21,12 @@ public class GerenciadoTransacaoPanel extends JPanel{
 		cache = new MemoriaHolder("cache");
 		log = new MemoriaHolder("Log");
 		disco = new MemoriaHolder("Disco");
-//		disco = new MemoriaHolder("Disco");
+		menu = new MenuPanel();
 		
 		add(cache.getPanel());
 		add(log.getPanel());
 		add(disco.getPanel());
-//		add(disco.getPanel());
+		add(menu);
 		
 		addMouseListener(new MouseAdapter() {
 			@Override
