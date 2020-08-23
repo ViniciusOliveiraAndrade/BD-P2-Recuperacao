@@ -6,7 +6,6 @@ public class Acao {
 	private Object valor;
 	
 	public Acao(Object dadoAlvo, Object tipo, Object valor) {
-		super();
 		this.dadoAlvo = dadoAlvo;
 		this.tipo = tipo;
 		this.valor = valor;

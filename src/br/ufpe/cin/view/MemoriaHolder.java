@@ -3,6 +3,7 @@ package br.ufpe.cin.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -15,14 +16,14 @@ public class MemoriaHolder extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private JScrollPane scroll;
-	int index;
+//	int index;
 	
 	public MemoriaHolder(String titulo) {
-		setLayout(new GridLayout(0, 1, 3, 3));
-		setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),titulo));
-		index = 0;
+		this.setLayout(new GridLayout(0, 1, 3, 3));
+		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),titulo));
+//		index = 0;
         
-		scroll = new JScrollPane(this);
+		this.scroll = new JScrollPane(this);
         
 	}
 	
@@ -34,7 +35,8 @@ public class MemoriaHolder extends JPanel{
         String tipo="oi"; 
         
         try {
-        	this.add(new JLabel(tipo+ ++index));
+//        	this.add(new JLabel(tipo+ ++index));
+        	this.add(new JLabel(tipo));
      	   	this.update();
      	   	
          } catch (Exception e) {
@@ -43,6 +45,24 @@ public class MemoriaHolder extends JPanel{
             JOptionPane.showMessageDialog(this, "Não foi possivel Adicionar");
         }
     }
+	
+	public void addTransacao(TransacaoHolder t){
+        try {
+        	this.add(t);
+     	   	this.update();
+     	   	this.scrollDown();
+     	   
+         } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Não foi possível adicionar a transação "+ t.getIndicadorLabel().getText());
+        }
+    }
+	
+	private void scrollDown() {
+		Rectangle r = this.getBounds();
+ 	   	r.y = (r.height + r.height) + r.y;
+ 	   	this.scrollRectToVisible(r);
+	}
 	
 	private void update() {
 		this.revalidate();

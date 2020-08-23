@@ -12,18 +12,27 @@ public class Transacao {
 	
 	private ArrayList<Acao> acoes;
 	
-	public Transacao() {
+	public Transacao(int cod) {
+		this.cod = cod;
 		this.tempoInicio = System.currentTimeMillis();
 		this.acoes = new ArrayList<Acao>();
 	}
 	
 	public boolean addAcao(Acao acao) {
 		try {
-			acoes.add(acao);
+			this.acoes.add(acao);
 			return true;
 		}catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public void updateT(){
+		this.tempoAtualizacao = System.currentTimeMillis();
+	}
+	
+	public void commitT(){
+		this.tempoCommit = System.currentTimeMillis();
 	}
 
 	public int getCod() {

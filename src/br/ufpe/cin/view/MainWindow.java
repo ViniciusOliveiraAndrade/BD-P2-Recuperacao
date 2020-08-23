@@ -11,22 +11,22 @@ public class MainWindow extends JFrame{
 	private TabHolder tabHolder;
 	
 
-	private InfoPanel infoPanel;
+//	private InfoPanel infoPanel;
 	
 	public MainWindow() {
-		setSize(900, 600);
-		setTitle("Recuparação de Trasação");
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setExtendedState(MAXIMIZED_BOTH);
+		this.setSize(900, 600);
+		this.setTitle("Recuparação de Trasação");
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setExtendedState(MAXIMIZED_BOTH);
 	
-		infoPanel = new InfoPanel();
+//		this.infoPanel = new InfoPanel();
 		
-		tabHolder = new TabHolder();
+		this.tabHolder = new TabHolder();
 		
-		add(infoPanel, BorderLayout.PAGE_START);
-		add(tabHolder,BorderLayout.CENTER);
+//		add(infoPanel, BorderLayout.PAGE_START);
+		this.add(this.tabHolder,BorderLayout.CENTER);
 		
-		setVisible(true);
+		this.setVisible(true);
 	}
 }

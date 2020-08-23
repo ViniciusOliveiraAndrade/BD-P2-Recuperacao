@@ -11,12 +11,12 @@ public class TabHolder extends JTabbedPane {
 	private GerenciadoTransacaoPanel imediataB;
 	
 	public TabHolder() {
-		adiada = new GerenciadoTransacaoPanel();
-		imediataA = new GerenciadoTransacaoPanel();
-		imediataB = new GerenciadoTransacaoPanel();
+		this.adiada = new GerenciadoTransacaoPanel();
+		this.imediataA = new GerenciadoTransacaoPanel();
+		this.imediataB = new GerenciadoTransacaoPanel();
 		
-		addTab("Adiada", adiada);
-		addTab("ImediataA", imediataA);
-		addTab("Imediata B", imediataB);
+		this.addTab("Adiada", this.adiada);
+		this.addTab("ImediataA", this.imediataA);
+		this.addTab("Imediata B", this.imediataB);
 	}
 }

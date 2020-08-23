@@ -17,31 +17,47 @@ public class MenuPanel  extends JPanel{
 	private JButton falhaButton;
 	private JButton recuperarButton;
 	
-	
-	
 	public MenuPanel() {
-		setLayout(new GridLayout(0, 2, 15, 15));
-		setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),""));
+		this.setLayout(new GridLayout(0, 2, 15, 15));
+		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),""));
 		
-		addButton = new JButton("Add Transação");
-		addButton.setIcon(new ImageIcon("res/addIcon.png"));
+		this.addButton = new JButton("Add Transação");
+		this.addButton.setIcon(new ImageIcon("res/addIcon.png"));
 		
-		checkPointButton = new JButton("Check Point");
-		checkPointButton.setIcon(new ImageIcon("res/checkPointIcon.png"));
+		this.checkPointButton = new JButton("Check Point");
+		this.checkPointButton.setIcon(new ImageIcon("res/checkPointIcon.png"));
 		
-		falhaButton = new JButton("Gerar Falha");
-		falhaButton.setIcon(new ImageIcon("res/failIcon.png"));
+		this.falhaButton = new JButton("Gerar Falha");
+		this.falhaButton.setIcon(new ImageIcon("res/failIcon.png"));
 		
-		recuperarButton = new JButton("Recuperar");
-		recuperarButton.setIcon(new ImageIcon("res/recoverIcon.png"));
+		this.recuperarButton = new JButton("Recuperar");
+		this.recuperarButton.setIcon(new ImageIcon("res/recoverIcon.png"));
 		
 		
-		add(addButton);
-		add(checkPointButton);
-		add(falhaButton);
-		add(recuperarButton);
+		this.add(this.addButton);
+		this.add(this.checkPointButton);
+		this.add(this.falhaButton);
+		this.add(this.recuperarButton);
 	}
-	
-	
+
+
+	public JButton getAddButton() {
+		return addButton;
+	}
+
+
+	public JButton getCheckPointButton() {
+		return checkPointButton;
+	}
+
+
+	public JButton getFalhaButton() {
+		return falhaButton;
+	}
+
+
+	public JButton getRecuperarButton() {
+		return recuperarButton;
+	}
 
 }
