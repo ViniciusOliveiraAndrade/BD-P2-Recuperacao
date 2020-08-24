@@ -52,7 +52,6 @@ public class MemoriaHolder extends JPanel{
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Não foi possível adicionar o evento "+ ev.getText());
         }
-        System.out.println("entrou");
     }
 	
 	private void scrollDown() {

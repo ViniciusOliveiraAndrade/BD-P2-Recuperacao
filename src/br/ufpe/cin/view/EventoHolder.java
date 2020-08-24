@@ -21,7 +21,7 @@ public class EventoHolder extends JLabel{
 			this.setText("T"+e.getTransacao().getCod() + " Falta pegar ação");
 			break;
 		case "checkpoint":
-			this.setText("CheckPoint"+e.getCheckPoint().getCod()+" criado");
+			this.setText("CheckPoint "+e.getCheckPoint().getCod()+" criado");
 			break;
 			
 		default:
