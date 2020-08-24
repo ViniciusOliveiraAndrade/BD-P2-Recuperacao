@@ -41,6 +41,20 @@ public class MemoriaHolder extends JPanel{
         }
     }
 	
+	
+	public void addEvento(EventoHolder ev){
+        try {
+        	this.add(ev);
+     	   	this.update();
+     	   	this.scrollDown();
+     	   
+         } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Não foi possível adicionar o evento "+ ev.getText());
+        }
+        System.out.println("entrou");
+    }
+	
 	private void scrollDown() {
 		Rectangle r = this.getBounds();
  	   	r.y = (r.height + r.height) + r.y;
