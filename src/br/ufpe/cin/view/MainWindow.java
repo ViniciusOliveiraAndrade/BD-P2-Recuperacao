@@ -11,7 +11,7 @@ public class MainWindow extends JFrame{
 	private TabHolder tabHolder;
 	
 	public MainWindow() {
-		this.setSize(900, 600);
+		this.setSize(1382, 706);
 		this.setTitle("Recuparação de Trasação");
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -19,7 +19,7 @@ public class MainWindow extends JFrame{
 		
 		this.tabHolder = new TabHolder();
 		
-		this.add(this.tabHolder,BorderLayout.CENTER);
+		getContentPane().add(this.tabHolder,BorderLayout.CENTER);
 		
 		this.setVisible(true);
 	}

@@ -20,7 +20,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	public AdiadaMenuHandler(GerenciadoTransacaoPanel gtp) {
 		super(gtp);
 		
-		this.getGtp().getMenuHolder().getAddButton().addActionListener(this);
+		this.getGtp().getMenuHolder().getAddTransacaoButton().addActionListener(this);
 		this.getGtp().getMenuHolder().getCheckPointButton().addActionListener(this);
 		
 		this.transacoes = new ArrayList<TransacaoHolder>();
@@ -33,13 +33,13 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	private void addEvento(CheckPoint cp){
 		Evento e = new Evento(cp);
 		this.eventos.add(e);
-		this.getGtp().getLogHolder().addEvento(new EventoHolder(e));
+		this.getGtp().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
 	
 	private void addEvento(Transacao t){
 		Evento e = new Evento(t);
 		this.eventos.add(e);
-		this.getGtp().getLogHolder().addEvento(new EventoHolder(e));
+		this.getGtp().getDiscoHolder().addEvento(new EventoHolder(e));
 	}
 	
 	private void addTransacao() {
@@ -58,7 +58,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==this.getGtp().getMenuHolder().getAddButton()) {
+		if (e.getSource()==this.getGtp().getMenuHolder().getAddTransacaoButton()) {
 			
 			this.addTransacao();
 			
