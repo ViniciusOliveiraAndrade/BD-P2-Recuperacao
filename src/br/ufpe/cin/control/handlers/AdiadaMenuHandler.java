@@ -2,6 +2,7 @@ package br.ufpe.cin.control.handlers;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import br.ufpe.cin.model.CheckPoint;
 import br.ufpe.cin.model.Evento;
@@ -98,6 +99,31 @@ public class AdiadaMenuHandler extends AbstractHandler {
 //		if (e.getSource()==this.getGtp().getMenuHolder().getRecuperarFalhaButton()) {
 //			this.recuperarFalha();	
 //		}
+		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof TransacaoHolderHander) {
+            String tipo = (String)arg;
+			
+            switch (tipo) {
+			case "iniciar":
+				
+				break;
+			case "acao":
+				
+				break;
+			case "abortar":
+				
+				break;
+			case "commit":
+				
+				break;
+			default:
+				break;
+			}
+		}
 		
 	}
 
