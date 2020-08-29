@@ -6,17 +6,18 @@ public class Evento {
 	private Transacao transacao;
 	private CheckPoint checkPoint;
 	private Acao acao;
+	private Variavel variavel;
 	
 	public Evento(Transacao transacao) {
 		super();
-		this.tipo = "transacao";
+		this.tipo = StringVariables.EVENTO_TRANSACAO.getValue();
 		this.transacao = transacao;
 	}
 
 	
 	public Evento(Transacao transacao, Acao acao) {
 		super();
-		this.tipo = "acao";
+		this.tipo = StringVariables.EVENTO_ACAO.getValue();
 		this.transacao = transacao;
 		this.acao = acao;
 	}
@@ -24,8 +25,14 @@ public class Evento {
 
 	public Evento(CheckPoint checkPoint) {
 		super();
-		this.tipo = "checkpoint";
+		this.tipo = StringVariables.EVENTO_CHECKPOINT.getValue();
 		this.checkPoint = checkPoint;
+	}
+	
+	public Evento(Variavel variavel) {
+		super();
+		this.tipo = StringVariables.EVENTO_VARIAVEL.getValue();
+		this.variavel = variavel;
 	}
 
 
@@ -47,8 +54,11 @@ public class Evento {
 	public Acao getAcao() {
 		return acao;
 	}
-	
-	
+
+
+	public Variavel getVariavel() {
+		return variavel;
+	}
 	
 
 }

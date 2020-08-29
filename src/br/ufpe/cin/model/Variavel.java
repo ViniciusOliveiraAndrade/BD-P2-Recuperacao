@@ -3,11 +3,11 @@ package br.ufpe.cin.model;
 public class Variavel {
 	private String nome;
 	
-	private int valor;
+	private long valor;
 	
 	private boolean locked;
 
-	public Variavel(String nome, int valor) {
+	public Variavel(String nome, long valor) {
 		super();
 		this.nome = nome;
 		this.valor = valor;
@@ -22,11 +22,11 @@ public class Variavel {
 		this.nome = nome;
 	}
 
-	public int getValor() {
+	public long getValor() {
 		return valor;
 	}
 
-	public void setValor(int valor) {
+	public void setValor(long valor) {
 		this.valor = valor;
 	}
 

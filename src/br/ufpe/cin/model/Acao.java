@@ -8,14 +8,14 @@ public class Acao {
 	
 	public Acao(Variavel variavelAlvo , long valorNovo) {
 		this.variavelAlvo = variavelAlvo;
-		this.tipo = "Write";
+		this.tipo = StringVariables.ACAO_WRITE.getValue();
 		this.valorNovo = valorNovo;
 		this.valorVelho = variavelAlvo.getValor();
 	}
 	
 	public Acao(Variavel variavelAlvo) {
 		this.variavelAlvo = variavelAlvo;
-		this.tipo = "Read";
+		this.tipo = StringVariables.ACAO_READ.getValue();
 	}
 
 	public String getTipo() {
