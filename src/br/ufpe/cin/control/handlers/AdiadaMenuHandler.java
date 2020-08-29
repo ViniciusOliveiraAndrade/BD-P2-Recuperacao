@@ -54,13 +54,13 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	private void addEventoLogMemoria(Transacao t) {
 		Evento e = new Evento(t);
 		this.eventos.add(e);
-		this.getGtp().getDiscoHolder().addEvento(new EventoHolder(e));
+		this.getGtp().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
 
-	private void adicionarTransacaoMemoria() {
+	private void adicionarTransacao() {
 		Transacao t = new Transacao(this.tCount++);
 		TransacaoHolder th = new TransacaoHolder(t);
-		this.getGtp().getCacheHolder().addTransacao(th);
+		this.getGtp().getTransacoesHolder().addTransacao(th);
 		this.transacoes.add(th);
 		this.addEventoLogMemoria(t);
 
@@ -93,10 +93,9 @@ public class AdiadaMenuHandler extends AbstractHandler {
 			this.adicionarVariavel();
 		}
 //		Adicionar transação
-
-//		if (e.getSource()==this.getGtp().getMenuHolder().getAdicionarTransacaoButton()) {
-//			this.adicionarTransacao();	
-//		}
+		if (e.getSource()==this.getGtp().getMenuHolder().getAddTransacaoButton()) {
+			this.adicionarTransacao();	
+		}
 //		if (e.getSource()==this.getGtp().getMenuHolder().getEstourarMemoriaButton()) {
 //			this.estourarMemoria();
 //		}
