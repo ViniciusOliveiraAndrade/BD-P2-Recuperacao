@@ -8,7 +8,7 @@ public class Variavel {
 	
 	private boolean locked;
 	
-	private int tcod;
+	private int transacaoCod;
 
 	public Variavel(String nome, long valor) {
 		super();
@@ -44,7 +44,12 @@ public class Variavel {
 
 	public void locked(int tcod) {
 		this.locked = true;
-		this.tcod = tcod;
+		this.transacaoCod = tcod;
+	}
+
+
+	public int getTransacaoCod() {
+		return transacaoCod;
 	}
 	
 	

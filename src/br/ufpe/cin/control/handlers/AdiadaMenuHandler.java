@@ -23,8 +23,10 @@ import br.ufpe.cin.view.TransacaoHolder;
 public class AdiadaMenuHandler extends AbstractHandler {
 
 	private ArrayList<TransacaoHolder> transacoes;
-	private ArrayList<Evento> eventosMemoria;
-	private ArrayList<Evento> eventosDisco;
+	
+	private ArrayList<Evento> eventosLogMemoria;
+	private ArrayList<Evento> eventosLogDisco;
+	
 	private ArrayList<Variavel> variaveisCache;
 	private ArrayList<Variavel> variaveisDisco;
 
@@ -47,8 +49,8 @@ public class AdiadaMenuHandler extends AbstractHandler {
 
 		this.transacoes = new ArrayList<TransacaoHolder>();
 		
-		this.eventosMemoria = new ArrayList<Evento>();
-		this.eventosDisco = new ArrayList<Evento>();
+		this.eventosLogMemoria = new ArrayList<Evento>();
+		this.eventosLogDisco = new ArrayList<Evento>();
 		
 		this.variaveisCache = new ArrayList<Variavel>();
 		this.variaveisDisco = new ArrayList<Variavel>();
@@ -59,26 +61,26 @@ public class AdiadaMenuHandler extends AbstractHandler {
 
 	private void addEventoLogDisco(CheckPoint cp) {
 		Evento e = new Evento(cp);
-		this.eventosDisco.add(e);
+		this.eventosLogDisco.add(e);
 		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
 	}
 
-	private void addEventoLogDisco(Transacao t) {
-		Evento e = new Evento(t);
-		this.eventosDisco.add(e);
-		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
-	}
+//	private void addEventoLogDisco(Transacao t) {
+//		Evento e = new Evento(t);
+//		this.eventosDisco.add(e);
+//		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
+//	}
 
 	private void addEventoLogMemoria(Transacao t) {
 		Evento e = new Evento(t);
 
-		this.eventosMemoria.add(e);
+		this.eventosLogMemoria.add(e);
 		this.getGtp().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
 
 	private void addEventoLogMemoria(Acao a) {
 		Evento e = new Evento(this.atual, a);
-		this.eventosMemoria.add(e);
+		this.eventosLogMemoria.add(e);
 
 		this.getGtp().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
@@ -113,57 +115,120 @@ public class AdiadaMenuHandler extends AbstractHandler {
 
 		Variavel v = new Variavel(nome, valor);
 		this.variaveisDisco.add(v);
-		this.updateCacheDisco();
+		this.updateDisplayDisco();
 
 		this.getAvw().setVisible(false);
 		this.getAvw().dispose();
 	}
 
 	private void adicionarAcao() {
-		Variavel v = this.getVariavel((String) this.getAaw().getVariavelSpinner().getValue());
-		v.locked(this.atual.getCod());
-		
-		if ((String.valueOf(this.getAaw().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_READ.getValue())) {
-			Acao a = new Acao(v);
-			this.addEventoLogMemoria(a);
-		}else {
-			Acao a = new Acao(v, Long.valueOf(this.getAaw().getValorTextField().getText()));
-			this.addEventoLogMemoria(a);
+		Variavel variavel = this.getVariavelCache((String) this.getAaw().getVariavelSpinner().getValue());
+		if (variavel == null ) {
+			variavel = this.getVariavelDisco((String) this.getAaw().getVariavelSpinner().getValue());
 		}
+		variavel.locked(this.atual.getCod());
+		
+		
+		if (!this.isVariavelCache(variavel.getNome())) {
+			Acao acaoLeitura = new Acao(variavel);
+			this.addEventoLogMemoria(acaoLeitura);
+			this.variaveisCache.add(new Variavel(variavel.getNome(), variavel.getValor()));
+			this.updateDisplayCache();
+		}
+		
+		if ((String.valueOf(this.getAaw().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_WRITE.getValue())) {
+			
+			long valor = Long.valueOf(this.getAaw().getValorTextField().getText());
+			Acao acaoEscrita = new Acao(variavel, valor );
+			this.addEventoLogMemoria(acaoEscrita);
+			this.getVariavelCache(variavel.getNome()).setValor(valor);
+			this.updateDisplayCache();
+			
+		} if ((String.valueOf(this.getAaw().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_READ.getValue())) {
+			
+			Acao acaoLeitura = new Acao(variavel );
+			this.addEventoLogMemoria(acaoLeitura);
+//			this.getVariavelCache(variavel.getNome()).setValor(valor);
+			this.updateDisplayCache();
+			
+		}
+		
+			
+			
+//			if (!this.isVariavelCache(variavel.getNome())) {
+			
+//			for (Variavel variavel_aux : this.variaveisCache) {
+//				if (variavel_aux.getNome().)
+//			}
+//			this.addEventoLogMemoria(acao);
+			
+//			this.variaveisCache.add(new Variavel(variavel.getNome(), valor));
+//			this.updateDisplayCache();
+//		}
 		
 		this.getAaw().setVisible(false);
 		this.getAaw().dispose();
 	}
 
 	private void estourarMemoria() {
-		for (Evento e : this.eventosMemoria) {
-			this.eventosDisco.add(e);
+		for (Evento e : this.eventosLogMemoria) {
+			this.eventosLogDisco.add(e);
 			this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
 			this.getGtp().getLogMemoriaHolder().remove(0);
 			this.getGtp().getLogMemoriaHolder().update();
 		}
-		this.eventosMemoria.clear();
+		this.eventosLogMemoria.clear();
 
 	}
 
-	private void updateCacheDisco() {
+	private void updateDisplayCache(){
 		this.getGtp().getCacheHolder().removeAll();
-		this.getGtp().getDiscoHolder().removeAll();
 		
 		for (Variavel v : this.variaveisCache) {
 			this.getGtp().getCacheHolder().addEvento(new EventoHolder(new Evento(v)));
 		}
+	}
+	
+	private void updateDisplayDisco(){
+		this.getGtp().getDiscoHolder().removeAll();
+		
 		for (Variavel v : this.variaveisDisco) {
 			this.getGtp().getDiscoHolder().addEvento(new EventoHolder(new Evento(v)));
 		}
 	}
+
 	
-	private Variavel getVariavel(String nome) {
+	
+//	De inicio coloca na cache
+	private void lerVariavel() {}
+
+//	De inicio coloca na cache
+	private void escreverVariavel() {}
+	
+	private boolean isVariavelCache(String nome) {
+		boolean emCache = false;
+		for (Variavel v : this.variaveisCache) {
+			if (v.getNome().equals(nome)) {
+				emCache = true;
+			}
+		}
+		
+		return emCache;
+	}
+	
+	private Variavel getVariavelCache(String nome) {
+		
 		for (Variavel v : this.variaveisCache) {
 			if (v.getNome().equals(nome)) {
 				return v;
 			}
 		}
+		
+		return null;
+	}
+	
+	private Variavel getVariavelDisco(String nome) {
+		
 		for (Variavel v : this.variaveisDisco) {
 			if (v.getNome().equals(nome)) {
 				return v;
@@ -171,6 +236,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		}
 		return null;
 	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -219,8 +285,6 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		}
 	}
 	
-	
-
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof TransacaoHolderHander) {
@@ -236,25 +300,30 @@ public class AdiadaMenuHandler extends AbstractHandler {
 			case "ACAO":
 				this.criarTelaAdicionarAcao();
 				ArrayList<String> disponiveis = new ArrayList<>();
-				if (this.variaveisCache.size() < 1 && this.variaveisDisco.size() < 1) {
-					disponiveis.add("");
-				}
+				
 				
 				for (Variavel v : this.variaveisCache) {
 					if (!v.isLocked()) {
 						if(!disponiveis.contains(v.getNome())) {
 						disponiveis.add(v.getNome());}
+					}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
+						disponiveis.add(v.getNome());
 					}
+					
 				}
 				
 				for (Variavel v : this.variaveisDisco) {
 					if (!v.isLocked()) {
 						if(!disponiveis.contains(v.getNome())) {
 						disponiveis.add(v.getNome());}
+					}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
+						disponiveis.add(v.getNome());
 					}
 				}
 				
-				
+				if (disponiveis.size() < 1) {
+					disponiveis.add("");
+				}
 				
 				String[] acao = new String[2];
 				acao[0] = StringVariables.ACAO_READ.getValue();
