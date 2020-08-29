@@ -15,21 +15,21 @@ public class TransacaoHolder extends JPanel {
 	private Transacao t;
 	
 	private JLabel indicadorLabel;
-	
+
+	private JButton addAcaoButton;
 	private JButton iniciarTransacaoButton;
-	private JButton adicionarAcaoButton;
-	private JButton abortarTransacaoButton;
-	private JButton commitTransacaoButton;
+	private JButton abortarButton;	
+	private JButton commitButton;
 
 	public TransacaoHolder(Transacao t) {
 		this.t = t;
 		
 		this.indicadorLabel = new JLabel("T"+t.getCod());
-		
-		this.iniciarTransacaoButton = new JButton("Iniciar Transação");
-		this.adicionarAcaoButton = new JButton("Adicionar Ação");
-		this.abortarTransacaoButton = new JButton("Abortar Transação");
-		this.commitTransacaoButton = new JButton("Commit Transação");
+
+		this.iniciarTransacaoButton = new JButton("Iniciar TransaÃ§Ã£o");
+		this.adicionarAcaoButton = new JButton("Adicionar AÃ§Ã£o");
+		this.abortarTransacaoButton = new JButton("Abortar TransaÃ§Ã£o");
+		this.commitTransacaoButton = new JButton("Commit TransaÃ§Ã£o");
 		
 		this.add(this.indicadorLabel);
 		
@@ -37,6 +37,7 @@ public class TransacaoHolder extends JPanel {
 		this.add(this.adicionarAcaoButton);
 		this.add(this.abortarTransacaoButton);
 		this.add(this.commitTransacaoButton);
+
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
@@ -55,6 +56,7 @@ public class TransacaoHolder extends JPanel {
 
 	public JButton getAdicionarAcaoButton() {
 		return adicionarAcaoButton;
+
 	}
 
 	public JButton getAbortarTransacaoButton() {
@@ -65,6 +67,5 @@ public class TransacaoHolder extends JPanel {
 		return commitTransacaoButton;
 	}
 
-	
 	
 }

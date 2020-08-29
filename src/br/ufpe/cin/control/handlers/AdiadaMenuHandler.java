@@ -25,7 +25,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	public AdiadaMenuHandler(GerenciadoTransacaoPanel gtp) {
 		super(gtp);
 		
-		this.getGtp().getMenuHolder().getAddButton().addActionListener(this);
+		this.getGtp().getMenuHolder().getAddTransacaoButton().addActionListener(this);
 		this.getGtp().getMenuHolder().getCheckPointButton().addActionListener(this);
 		
 		this.transacoes = new ArrayList<TransacaoHolder>();
@@ -39,12 +39,13 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		Evento e = new Evento(cp);
 		this.eventos.add(e);
 		this.getGtp().getLodDiscoHolder().addEvento(new EventoHolder(e));
+
 	}
 	
 	private void addEventoLogMemoria(Transacao t){
 		Evento e = new Evento(t);
 		this.eventos.add(e);
-		this.getGtp().getLogHolder().addEvento(new EventoHolder(e));
+		this.getGtp().getDiscoHolder().addEvento(new EventoHolder(e));
 	}
 	
 	private void adicionarTransacaoMemoria() {
@@ -67,13 +68,13 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	/**
 	 * 
 	 * GTP - Adicionar variavel
-	 * GTP - Adicionar transação
-	 * GTP - Estouro de Memória
+	 * GTP - Adicionar transaï¿½ï¿½o
+	 * GTP - Estouro de Memï¿½ria
 	 * GTP - CheckPoint
 	 * GTP - Recuperar falha
 	 * AV - OK
-	 * T - Adicionar Ação
-	 * T - Iniciar Transação
+	 * T - Adicionar Aï¿½ï¿½o
+	 * T - Iniciar Transaï¿½ï¿½o
 	 * T - Abortar
 	 * T - Commit
 	 * T - /UPDATE/
@@ -83,6 +84,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
 //		GerenciadoTransacaoPanel
 //		if (e.getSource()==this.getGtp().getMenuHolder().getAdicionarVariavelButton()) {
 //			this.adicionarVariavel();	
@@ -93,6 +95,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 //		if (e.getSource()==this.getGtp().getMenuHolder().getEstourarMemoriaButton()) {
 //			this.estourarMemoria();
 //		}
+
 		if (e.getSource()==this.getGtp().getMenuHolder().getCheckPointButton()) {
 			this.adicionarCheckpoint();
 		}
