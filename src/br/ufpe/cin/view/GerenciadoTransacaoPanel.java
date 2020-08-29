@@ -5,6 +5,11 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
 
 public class GerenciadoTransacaoPanel extends JPanel{
 	
@@ -16,32 +21,32 @@ public class GerenciadoTransacaoPanel extends JPanel{
 	private MemoriaHolder logDiscoHolder;
 	private MemoriaHolder discoHolder;
 	private MenuPanel menuHolder;
-	private MemoriaHolder variaveisHolder;
 	
 	public GerenciadoTransacaoPanel() {
-		this.setLayout(new GridLayout(0, 2, 5, 5));
 		this.transacoesHolder = new MemoriaHolder("Transações");
+		this.menuHolder = new MenuPanel();
+		this.setLayout(new GridLayout(3,2));
+	
 		this.cacheHolder = new MemoriaHolder("Cache");
 		this.logMemoriaHolder = new MemoriaHolder("Log de Memória");
 		this.discoHolder = new MemoriaHolder("Disco");
 		this.logDiscoHolder = new MemoriaHolder("Log de Disco");
-		this.variaveisHolder = new MemoriaHolder("Variáveis Iniciais");
 		
-		this.add(this.transacoesHolder.getPanel());
-		this.add(this.cacheHolder.getPanel());
-		this.add(this.logMemoriaHolder.getPanel());
-		this.add(this.discoHolder.getPanel());
-		this.add(this.logDiscoHolder.getPanel());
-		this.menuHolder = new MenuPanel();
-		add(menuHolder);
+		this.add(menuHolder);
+		this.add(transacoesHolder.getPanel());
+		add(this.cacheHolder.getPanel());
+		add(this.logMemoriaHolder.getPanel());
+		add(this.discoHolder.getPanel());
+		add(this.logDiscoHolder.getPanel());
+		
 		menuHolder.getRecuperarButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		this.add(this.variaveisHolder.getPanel());
+		
 	}
 	
-	public MemoriaHolder getTransacoes() {
+	public MemoriaHolder getTransacoesHolder() {
 		return transacoesHolder;
 	}
 
@@ -59,10 +64,6 @@ public class GerenciadoTransacaoPanel extends JPanel{
 
 	public MemoriaHolder getDiscoHolder() {
 		return discoHolder;
-	}
-	
-	public MemoriaHolder getVariaveisHolder() {
-		return variaveisHolder;
 	}
 
 	public MenuPanel getMenuHolder() {

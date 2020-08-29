@@ -31,7 +31,7 @@ public class MenuPanel  extends JPanel{
 		
 		this.estouroMemoriaButton = new JButton("Estouro de Memória");
 		
-		this.checkPointButton = new JButton("Check Point");
+		this.checkPointButton = new JButton("Checkpoint");
 //		this.checkPointButton.setIcon(new ImageIcon("res/checkPointIcon.png"));
 		
 		this.recuperarButton = new JButton("Recuperar Falhas");
