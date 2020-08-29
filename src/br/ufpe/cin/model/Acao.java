@@ -18,7 +18,6 @@ public class Acao {
 		this.tipo = "Read";
 	}
 
-
 	public String getTipo() {
 		return tipo;
 	}
