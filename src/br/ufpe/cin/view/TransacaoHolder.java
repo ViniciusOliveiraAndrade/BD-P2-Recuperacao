@@ -38,7 +38,7 @@ public class TransacaoHolder extends JPanel {
 		this.add(this.abortarTransacaoButton);
 		this.add(this.commitTransacaoButton);
 
-		
+		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 

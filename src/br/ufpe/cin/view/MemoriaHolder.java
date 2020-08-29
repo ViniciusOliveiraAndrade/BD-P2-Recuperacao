@@ -1,5 +1,6 @@
 package br.ufpe.cin.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -15,17 +16,22 @@ public class MemoriaHolder extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private JScrollPane scroll;
+	private JPanel bord;
 	
 	public MemoriaHolder(String titulo) {
-		this.setLayout(new GridLayout(0, 1, 3, 3));
-		this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),titulo));
+		bord = new JPanel();
+		bord.setLayout(new BorderLayout());
+		bord.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),titulo));
+
+		this.setLayout(new GridLayout(0, 1, 3, 3));		
         
 		this.scroll = new JScrollPane(this);
         
+		bord.add(scroll,BorderLayout.CENTER);
 	}
 	
-	public JScrollPane getPanel() {
-		   return scroll;
+	public JPanel getPanel() {
+		   return bord;
 	   }
 	
 	

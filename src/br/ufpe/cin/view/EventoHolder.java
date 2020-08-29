@@ -14,6 +14,8 @@ public class EventoHolder extends JLabel{
 
 	public EventoHolder(Evento e) {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));	
+		this.setBackground(Color.WHITE);
+		this.setOpaque(true);
 		switch (e.getTipo()) {
 		case "TRANSACAO":
 			this.setText("T"+e.getTransacao().getCod() + " iniciou");
@@ -36,6 +38,7 @@ public class EventoHolder extends JLabel{
 		default:
 			break;
 		}
+		
 	}
 
 }
