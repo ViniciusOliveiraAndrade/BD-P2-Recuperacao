@@ -1,6 +1,10 @@
 package br.ufpe.cin.view;
 
 import javax.swing.JFrame;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -35,6 +39,17 @@ public class AdicionarVariavelWindow extends JFrame {
 		valueTextField.setBounds(49, 71, 138, 20);
 		getContentPane().add(valueTextField);
 		valueTextField.setColumns(10);
+		valueTextField.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= '0') && (c <= '9') ||
+		           (c == KeyEvent.VK_BACK_SPACE) ||
+		           (c == KeyEvent.VK_DELETE))) {
+		          getToolkit().beep();
+		          e.consume();
+		        }
+		      }
+		    });
 		
 		JLabel lblAdicionarVarivel = new JLabel("Adicionar Vari\u00E1vel");
 		lblAdicionarVarivel.setBounds(60, 11, 89, 14);
