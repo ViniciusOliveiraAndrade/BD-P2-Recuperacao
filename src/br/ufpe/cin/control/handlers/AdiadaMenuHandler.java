@@ -46,8 +46,10 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		this.getGtp().getMenuHolder().getRecuperarButton().addActionListener(this);
 
 		this.transacoes = new ArrayList<TransacaoHolder>();
+		
 		this.eventosMemoria = new ArrayList<Evento>();
 		this.eventosDisco = new ArrayList<Evento>();
+		
 		this.variaveisCache = new ArrayList<Variavel>();
 		this.variaveisDisco = new ArrayList<Variavel>();
 
@@ -59,7 +61,6 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		Evento e = new Evento(cp);
 		this.eventosDisco.add(e);
 		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
-
 	}
 
 	private void addEventoLogDisco(Transacao t) {
@@ -109,7 +110,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 
 		Variavel v = new Variavel(nome, valor);
 		this.variaveisDisco.add(v);
-		this.getGtp().getDiscoHolder().addEvento(new EventoHolder(new Evento(v)));
+		this.updateCacheDisco();
 
 		this.getAvw().setVisible(false);
 		this.getAvw().dispose();
@@ -132,7 +133,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	private void estourarMemoria() {
 		for (Evento e : this.eventosMemoria) {
 			this.eventosDisco.add(e);
-			this.addEventoLogDisco(e.getTransacao());
+			this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
 			this.getGtp().getLogMemoriaHolder().remove(0);
 			this.getGtp().getLogMemoriaHolder().update();
 		}
@@ -140,6 +141,18 @@ public class AdiadaMenuHandler extends AbstractHandler {
 
 	}
 
+	private void updateCacheDisco() {
+		this.getGtp().getCacheHolder().removeAll();
+		this.getGtp().getDiscoHolder().removeAll();
+		
+		for (Variavel v : this.variaveisCache) {
+			this.getGtp().getCacheHolder().addEvento(new EventoHolder(new Evento(v)));
+		}
+		for (Variavel v : this.variaveisDisco) {
+			this.getGtp().getDiscoHolder().addEvento(new EventoHolder(new Evento(v)));
+		}
+	}
+	
 	private Variavel getVariavel(String nome) {
 		for (Variavel v : this.variaveisCache) {
 			if (v.getNome().equals(nome)) {
@@ -201,6 +214,8 @@ public class AdiadaMenuHandler extends AbstractHandler {
 			}
 		}
 	}
+	
+	
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -220,16 +235,23 @@ public class AdiadaMenuHandler extends AbstractHandler {
 				if (this.variaveisCache.size() < 1 && this.variaveisDisco.size() < 1) {
 					disponiveis.add("");
 				}
-				for (Variavel v : this.variaveisDisco) {
-					if (!v.isLocked()) {
-						disponiveis.add(v.getNome());
-					}
-				}
+				
 				for (Variavel v : this.variaveisCache) {
 					if (!v.isLocked()) {
-						disponiveis.add(v.getNome());
+						if(!disponiveis.contains(v.getNome())) {
+						disponiveis.add(v.getNome());}
 					}
 				}
+				
+				for (Variavel v : this.variaveisDisco) {
+					if (!v.isLocked()) {
+						if(!disponiveis.contains(v.getNome())) {
+						disponiveis.add(v.getNome());}
+					}
+				}
+				
+				
+				
 				String[] acao = new String[2];
 				acao[0] = StringVariables.ACAO_READ.getValue();
 				acao[1] = StringVariables.ACAO_WRITE.getValue();
