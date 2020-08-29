@@ -38,7 +38,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	private void addEventoLogDisco(CheckPoint cp){
 		Evento e = new Evento(cp);
 		this.eventos.add(e);
-		this.getGtp().getLodDiscoHolder().addEvento(new EventoHolder(e));
+		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
 
 	}
 	
