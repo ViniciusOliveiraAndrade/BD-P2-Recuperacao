@@ -3,11 +3,13 @@ package br.ufpe.cin.control.handlers;
 import java.awt.event.ActionListener;
 import java.util.Observer;
 
+import javax.swing.event.ChangeListener;
+
 import br.ufpe.cin.view.AdicionarAcaoWindow;
 import br.ufpe.cin.view.AdicionarVariavelWindow;
 import br.ufpe.cin.view.GerenciadoTransacaoPanel;
 
-public abstract class AbstractHandler implements ActionListener, Observer {
+public abstract class AbstractHandler implements ActionListener, Observer,ChangeListener  {
 	
 	private GerenciadoTransacaoPanel gtp;
 	

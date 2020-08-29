@@ -66,7 +66,7 @@ public class MemoriaHolder extends JPanel{
  	   	this.scrollRectToVisible(r);
 	}
 	
-	private void update() {
+	public void update() {
 		this.revalidate();
  	   	this.repaint();
 	}
