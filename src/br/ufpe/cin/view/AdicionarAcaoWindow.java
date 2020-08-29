@@ -2,6 +2,10 @@ package br.ufpe.cin.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -11,6 +15,7 @@ public class AdicionarAcaoWindow extends JFrame {
 	private JButton adicionarButton = new JButton("Adicionar");
 	private JSpinner tipoAcaoSpinner = new JSpinner();
 	private JSpinner variavelSpinner = new JSpinner();
+	private JLabel lblValor;
 	
 	public AdicionarAcaoWindow() {
 		setSize(334, 235);
@@ -29,7 +34,7 @@ public class AdicionarAcaoWindow extends JFrame {
 		lblVarivel.setBounds(119, 50, 46, 14);
 		getContentPane().add(lblVarivel);
 		
-		JLabel lblValor = new JLabel("Valor");
+		lblValor = new JLabel("Valor");
 		lblValor.setBounds(224, 50, 46, 14);
 		getContentPane().add(lblValor);
 		
@@ -43,6 +48,17 @@ public class AdicionarAcaoWindow extends JFrame {
 		valorTextField.setBounds(224, 64, 86, 20);
 		getContentPane().add(valorTextField);
 		valorTextField.setColumns(10);
+		valorTextField.addKeyListener(new KeyAdapter() {
+		    public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!((c >= '0') && (c <= '9') ||
+		           (c == KeyEvent.VK_BACK_SPACE) ||
+		           (c == KeyEvent.VK_DELETE))) {
+		          getToolkit().beep();
+		          e.consume();
+		        }
+		      }
+		    });
 		
 		variavelSpinner.setBounds(117, 64, 59, 20);
 		getContentPane().add(variavelSpinner);
@@ -50,6 +66,11 @@ public class AdicionarAcaoWindow extends JFrame {
 		setVisible(true);	
 	}
 
+	public void visibilidade() {
+		lblValor.setVisible(!lblValor.isVisible() );
+		valorTextField.setVisible(!valorTextField.isVisible() );
+	}
+	
 	public JTextField getValorTextField() {
 		return valorTextField;
 	}
@@ -65,5 +86,6 @@ public class AdicionarAcaoWindow extends JFrame {
 	public JSpinner getVariavelSpinner() {
 		return variavelSpinner;
 	}
+	
 	
 }
