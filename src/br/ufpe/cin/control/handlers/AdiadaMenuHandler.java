@@ -71,6 +71,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 
 	private void addEventoLogMemoria(Transacao t) {
 		Evento e = new Evento(t);
+
 		this.eventosMemoria.add(e);
 		this.getGtp().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
@@ -78,6 +79,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	private void addEventoLogMemoria(Acao a) {
 		Evento e = new Evento(this.atual, a);
 		this.eventosMemoria.add(e);
+
 		this.getGtp().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
 
@@ -85,6 +87,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		Transacao t = new Transacao(this.tCount++);
 		TransacaoHolder th = new TransacaoHolder(t);
 		TransacaoHolderHander thh = new TransacaoHolderHander(this, th);
+
 		this.getGtp().getTransacoesHolder().addTransacao(th);
 		this.transacoes.add(th);
 	}
@@ -178,7 +181,8 @@ public class AdiadaMenuHandler extends AbstractHandler {
 			this.criarTelaAdicionarVariavel();
 		}
 
-//		Adicionar transação
+
+//		Adicionar transaÃ§Ã£o
 		if (e.getSource() == this.getGtp().getMenuHolder().getAddTransacaoButton()) {
 			this.adicionarTransacao();
 		}
@@ -221,7 +225,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	public void update(Observable o, Object arg) {
 		if (o instanceof TransacaoHolderHander) {
 			String tipo = (String) arg;
-			Transacao t = ((TransacaoHolderHander) o).getTransaçãoHolder().getT();
+			Transacao t = ((TransacaoHolderHander) o).getTransaÃ§Ã£oHolder().getT();
 			this.atual = t;
 			switch (tipo) {
 			case "INICIO":
@@ -277,7 +281,6 @@ public class AdiadaMenuHandler extends AbstractHandler {
 				break;
 			}
 		}
-
 	}
 
 	@Override
@@ -290,5 +293,4 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		}
 		
 	}
-
 }
