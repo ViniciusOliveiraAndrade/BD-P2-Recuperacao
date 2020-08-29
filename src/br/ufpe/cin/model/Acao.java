@@ -1,38 +1,42 @@
 package br.ufpe.cin.model;
 
 public class Acao {
-	private Object dadoAlvo;
-	private Object tipo;
-	private Object valor;
+	private Variavel variavelAlvo;
+	private String tipo;
+	private long valorNovo;
+	private long valorVelho;
 	
-	public Acao(Object dadoAlvo, Object tipo, Object valor) {
-		this.dadoAlvo = dadoAlvo;
-		this.tipo = tipo;
-		this.valor = valor;
+	public Acao(Variavel variavelAlvo , long valorNovo) {
+		this.variavelAlvo = variavelAlvo;
+		this.tipo = "Write";
+		this.valorNovo = valorNovo;
+		this.valorVelho = variavelAlvo.getValor();
+	}
+	
+	public Acao(Variavel variavelAlvo) {
+		this.variavelAlvo = variavelAlvo;
+		this.tipo = "Read";
 	}
 
-	public Object getDadoAlvo() {
-		return dadoAlvo;
-	}
-
-	public void setDadoAlvo(Object dadoAlvo) {
-		this.dadoAlvo = dadoAlvo;
-	}
-
-	public Object getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Object tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 
-	public Object getValor() {
-		return valor;
+	public Variavel getVariavelAlvo() {
+		return variavelAlvo;
 	}
 
-	public void setValor(Object valor) {
-		this.valor = valor;
+	public long getValorNovo() {
+		return valorNovo;
 	}
+
+	public long getValorVelho() {
+		return valorVelho;
+	}
+	
 	
 }
