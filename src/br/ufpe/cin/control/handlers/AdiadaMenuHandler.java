@@ -225,7 +225,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	public void update(Observable o, Object arg) {
 		if (o instanceof TransacaoHolderHander) {
 			String tipo = (String) arg;
-			Transacao t = ((TransacaoHolderHander) o).getTransaçãoHolder().getT();
+			Transacao t = ((TransacaoHolderHander) o).getTransacaoHolder().getT();
 			this.atual = t;
 			switch (tipo) {
 			case "INICIO":
