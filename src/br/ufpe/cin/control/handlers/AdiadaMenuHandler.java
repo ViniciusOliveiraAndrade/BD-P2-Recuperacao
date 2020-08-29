@@ -118,7 +118,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 
 	private void adicionarAcao() {
 		Variavel v = this.getVariavel((String) this.getAaw().getVariavelSpinner().getValue());
-		v.setLocked(true);
+		v.locked(this.atual.getCod());
 		
 		if ((String.valueOf(this.getAaw().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_READ.getValue())) {
 			Acao a = new Acao(v);
