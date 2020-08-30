@@ -129,14 +129,16 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		variavel.locked(this.atual.getCod());
 		
 		
-		if (!this.isVariavelCache(variavel.getNome())) {
-			Acao acaoLeitura = new Acao(variavel);
-			this.addEventoLogMemoria(acaoLeitura);
-			this.variaveisCache.add(new Variavel(variavel.getNome(), variavel.getValor()));
-			this.updateDisplayCache();
-		}
 		
 		if ((String.valueOf(this.getAaw().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_WRITE.getValue())) {
+			
+			if (!this.isVariavelCache(variavel.getNome())) {
+				Acao acaoLeitura = new Acao(variavel);
+				this.addEventoLogMemoria(acaoLeitura);
+				Variavel variavel_locked = new Variavel(variavel.getNome(), variavel.getValor());
+				variavel_locked.locked(variavel.getTransacaoCod());
+				this.variaveisCache.add(variavel_locked);
+			}
 			
 			long valor = Long.valueOf(this.getAaw().getValorTextField().getText());
 			Acao acaoEscrita = new Acao(variavel, valor );
@@ -148,23 +150,15 @@ public class AdiadaMenuHandler extends AbstractHandler {
 			
 			Acao acaoLeitura = new Acao(variavel );
 			this.addEventoLogMemoria(acaoLeitura);
-//			this.getVariavelCache(variavel.getNome()).setValor(valor);
-			this.updateDisplayCache();
 			
+			if (!this.isVariavelCache(variavel.getNome())) {
+				Variavel variavel_locked =new  Variavel(variavel.getNome(), variavel.getValor());
+				variavel_locked.locked(variavel.getTransacaoCod());
+				this.variaveisCache.add(variavel_locked );
+			}
+			this.updateDisplayCache();
 		}
 		
-			
-			
-//			if (!this.isVariavelCache(variavel.getNome())) {
-			
-//			for (Variavel variavel_aux : this.variaveisCache) {
-//				if (variavel_aux.getNome().)
-//			}
-//			this.addEventoLogMemoria(acao);
-			
-//			this.variaveisCache.add(new Variavel(variavel.getNome(), valor));
-//			this.updateDisplayCache();
-//		}
 		
 		this.getAaw().setVisible(false);
 		this.getAaw().dispose();
@@ -291,11 +285,10 @@ public class AdiadaMenuHandler extends AbstractHandler {
 			String tipo = (String) arg;
 			Transacao t = ((TransacaoHolderHander) o).getTransacaoHolder().getT();
 			this.atual = t;
+			
 			switch (tipo) {
 			case "INICIO":
 				this.addEventoLogMemoria(t);
-
-//				System.out.println("T"+t.getCod() +" "+StringVariables.TRANSACAO_INICIO.getValue());
 				break;
 			case "ACAO":
 				this.criarTelaAdicionarAcao();
@@ -304,8 +297,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 				
 				for (Variavel v : this.variaveisCache) {
 					if (!v.isLocked()) {
-						if(!disponiveis.contains(v.getNome())) {
-						disponiveis.add(v.getNome());}
+						disponiveis.add(v.getNome());
 					}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
 						disponiveis.add(v.getNome());
 					}
@@ -313,12 +305,17 @@ public class AdiadaMenuHandler extends AbstractHandler {
 				}
 				
 				for (Variavel v : this.variaveisDisco) {
-					if (!v.isLocked()) {
-						if(!disponiveis.contains(v.getNome())) {
-						disponiveis.add(v.getNome());}
-					}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
-						disponiveis.add(v.getNome());
+					if (!this.isVariavelCache(v.getNome())) {
+						if (!v.isLocked()) {
+							disponiveis.add(v.getNome());
+						}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
+							disponiveis.add(v.getNome());
+						}
 					}
+				}
+				
+				for (String s : disponiveis) {
+					System.out.println(s);
 				}
 				
 				if (disponiveis.size() < 1) {
@@ -337,8 +334,6 @@ public class AdiadaMenuHandler extends AbstractHandler {
 				this.getAaw().getTipoAcaoSpinner().addChangeListener(this);
 				this.getAaw().visibilidade();
 				
-				
-//				System.out.println("T"+t.getCod() +" "+StringVariables.TRANSACAO_ACAO.getValue());
 				break;
 			case "ABORT":
 //				System.out.println("T"+t.getCod() +" "+StringVariables.TRANSACAO_ABORT.getValue());

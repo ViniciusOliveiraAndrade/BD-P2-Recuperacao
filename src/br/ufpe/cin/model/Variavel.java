@@ -45,6 +45,7 @@ public class Variavel {
 	public void locked(int tcod) {
 		this.locked = true;
 		this.transacaoCod = tcod;
+		System.out.println("Variavel "+this.getNome() + " was locked by T"+ this.getTransacaoCod());
 	}
 
 
