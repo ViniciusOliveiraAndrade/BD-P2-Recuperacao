@@ -88,6 +88,8 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	private void adicionarTransacao() {
 		Transacao t = new Transacao(this.tCount++);
 		TransacaoHolder th = new TransacaoHolder(t);
+		
+		@SuppressWarnings("unused")
 		TransacaoHolderHander thh = new TransacaoHolderHander(this, th);
 
 		this.getGtp().getTransacoesHolder().addTransacao(th);

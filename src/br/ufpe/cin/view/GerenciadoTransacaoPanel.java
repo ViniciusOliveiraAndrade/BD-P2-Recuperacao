@@ -39,11 +39,6 @@ public class GerenciadoTransacaoPanel extends JPanel{
 		add(this.discoHolder.getPanel());
 		add(this.logDiscoHolder.getPanel());
 		
-		menuHolder.getRecuperarButton().addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		
 	}
 	
 	public MemoriaHolder getTransacoesHolder() {

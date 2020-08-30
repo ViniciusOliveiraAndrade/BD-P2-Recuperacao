@@ -25,7 +25,6 @@ public class EventoHolder extends JLabel{
 				this.setText("[ WRITE_ITEM, T"+e.getTransacao().getCod() + ", "+e.getAcao().getVariavelAlvo().getNome() + ", " +e.getAcao().getValorVelho() + ", " +e.getAcao().getValorNovo()+" ]");
 			}else if (e.getAcao().getTipo() == StringVariables.ACAO_READ.getValue()) {
 				this.setText("[ READ_ITEM, T"+e.getTransacao().getCod() + ", "+e.getAcao().getVariavelAlvo().getNome()+" ]");
-				
 			}
 			break;
 		case "CHECKPOINT":

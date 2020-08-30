@@ -20,7 +20,7 @@ import br.ufpe.cin.view.EventoHolder;
 import br.ufpe.cin.view.GerenciadoTransacaoPanel;
 import br.ufpe.cin.view.TransacaoHolder;
 
-public class ImediatoAMenuHandler extends AbstractHandler {
+public class ImediataAMenuHandler extends AbstractHandler {
 
 	private ArrayList<TransacaoHolder> transacoes;
 	
@@ -38,7 +38,7 @@ public class ImediatoAMenuHandler extends AbstractHandler {
 //	private adicionarVarivelWindow;
 //	private adicionarAcaoWindow;
 
-	public ImediatoAMenuHandler(GerenciadoTransacaoPanel gtp) {
+	public ImediataAMenuHandler(GerenciadoTransacaoPanel gtp) {
 		super(gtp);
 
 		this.getGtp().getMenuHolder().getAddVariavelButton().addActionListener(this);
@@ -71,6 +71,40 @@ public class ImediatoAMenuHandler extends AbstractHandler {
 //		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
 //	}
 
+	private ArrayList<Transacao> pegarTransacoesDepoisCheckPoint(){
+		
+		ArrayList<Transacao> trasasoesDepoisCheckpoint = new ArrayList<>();
+		
+		CheckPoint utimoCheckPoint = this.getUtimoCheckPoint();
+		
+		if (utimoCheckPoint == null) {
+			utimoCheckPoint = new CheckPoint(this.cpCount++);
+		}
+		
+		for (int i = this.eventosLogDisco.size()-1; i >= 0 ; i-- ) {
+			Evento evento = this.eventosLogDisco.get(i);
+			if (evento.getTipo().equals(StringVariables.EVENTO_TRANSACAO.getValue()) || evento.getTipo().equals(StringVariables.EVENTO_ACAO.getValue())) {
+//				return evento.getCheckPoint();
+			}
+		}
+		
+		
+		
+		return null;
+		
+	}
+	
+	
+	private CheckPoint getUtimoCheckPoint() {
+		for (int i = this.eventosLogDisco.size()-1; i >= 0 ; i-- ) {
+			Evento evento = this.eventosLogDisco.get(i);
+			if (evento.getTipo().equals(StringVariables.EVENTO_CHECKPOINT)) {
+				return evento.getCheckPoint();
+			}
+		}
+		return null;
+	}
+	
 	private void addEventoLogMemoria(Transacao t) {
 		Evento e = new Evento(t);
 
@@ -88,6 +122,7 @@ public class ImediatoAMenuHandler extends AbstractHandler {
 	private void adicionarTransacao() {
 		Transacao t = new Transacao(this.tCount++);
 		TransacaoHolder th = new TransacaoHolder(t);
+		@SuppressWarnings("unused")
 		TransacaoHolderHander thh = new TransacaoHolderHander(this, th);
 
 		this.getGtp().getTransacoesHolder().addTransacao(th);
@@ -209,7 +244,6 @@ public class ImediatoAMenuHandler extends AbstractHandler {
 				return v;
 			}
 		}
-		
 		return null;
 	}
 	
@@ -345,4 +379,5 @@ public class ImediatoAMenuHandler extends AbstractHandler {
 		}
 		
 	}
+
 }

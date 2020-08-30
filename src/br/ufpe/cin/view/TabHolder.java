@@ -6,6 +6,7 @@ import br.ufpe.cin.control.handlers.AbstractHandler;
 import br.ufpe.cin.control.handlers.AdiadaMenuHandler;
 //import br.ufpe.cin.control.handlers.ImediataAMenuHandler;
 //import br.ufpe.cin.control.handlers.ImediataBMenuHandler;
+import br.ufpe.cin.control.handlers.ImediataAMenuHandler;
 
 public class TabHolder extends JTabbedPane {
 
@@ -35,7 +36,7 @@ public class TabHolder extends JTabbedPane {
 		this.addTab("Imediata B", this.imediataB);
 	
 		this.adiadaMunuHandler = new AdiadaMenuHandler(this.adiada);
-//		this.adiadaMunuHandler = new ImediataAMenuHandler(this.imediataA);
+		this.adiadaMunuHandler = new ImediataAMenuHandler(this.imediataA);
 //		this.adiadaMunuHandler = new ImediataBMenuHandler(this.imediataB);
 		
 	}
