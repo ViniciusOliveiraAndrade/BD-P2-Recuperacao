@@ -1,11 +1,11 @@
 package br.ufpe.cin.model;
 
-public class CheckPoint {
+public class Checkpoint {
 	
 	private long tempo;
 	private int cod;
 
-	public CheckPoint(int cod) {
+	public Checkpoint(int cod) {
 		this.tempo = System.currentTimeMillis();
 		this.cod = cod;
 	}

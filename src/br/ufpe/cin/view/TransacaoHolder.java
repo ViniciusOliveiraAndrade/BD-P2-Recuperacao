@@ -12,7 +12,7 @@ import br.ufpe.cin.model.Transacao;
 public class TransacaoHolder extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private Transacao t;
+	private Transacao transacao;
 	
 	private JLabel indicadorLabel;
 
@@ -21,10 +21,10 @@ public class TransacaoHolder extends JPanel {
 	private JButton abortarTransacaoButton;	
 	private JButton commitTransacaoButton;
 
-	public TransacaoHolder(Transacao t) {
-		this.t = t;
+	public TransacaoHolder(Transacao transacao) {
+		this.transacao = transacao;
 		
-		this.indicadorLabel = new JLabel("T"+t.getCod());
+		this.indicadorLabel = new JLabel("T"+transacao.getCod());
 
 		this.iniciarTransacaoButton = new JButton("Iniciar Transação");
 		this.adicionarAcaoButton = new JButton("Adicionar Ação");
@@ -43,7 +43,7 @@ public class TransacaoHolder extends JPanel {
 	}
 
 	public Transacao getT() {
-		return t;
+		return transacao;
 	}
 
 	public JLabel getIndicadorLabel() {

@@ -11,7 +11,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 
-public class GerenciadoTransacaoPanel extends JPanel{
+public class GerenciadorTransacaoPanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -22,7 +22,7 @@ public class GerenciadoTransacaoPanel extends JPanel{
 	private MemoriaHolder discoHolder;
 	private MenuPanel menuHolder;
 	
-	public GerenciadoTransacaoPanel() {
+	public GerenciadorTransacaoPanel() {
 		this.transacoesHolder = new MemoriaHolder("Transações");
 		this.menuHolder = new MenuPanel();
 		this.setLayout(new GridLayout(3,2));

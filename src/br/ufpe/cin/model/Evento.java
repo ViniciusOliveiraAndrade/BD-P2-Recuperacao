@@ -4,7 +4,7 @@ public class Evento {
 	
 	private String tipo;
 	private Transacao transacao;
-	private CheckPoint checkPoint;
+	private Checkpoint checkPoint;
 	private Acao acao;
 	private Variavel variavel;
 	
@@ -23,7 +23,7 @@ public class Evento {
 	}
 
 
-	public Evento(CheckPoint checkPoint) {
+	public Evento(Checkpoint checkPoint) {
 		super();
 		this.tipo = StringVariables.EVENTO_CHECKPOINT.getValue();
 		this.checkPoint = checkPoint;
@@ -46,7 +46,7 @@ public class Evento {
 	}
 
 
-	public CheckPoint getCheckPoint() {
+	public Checkpoint getCheckPoint() {
 		return checkPoint;
 	}
 

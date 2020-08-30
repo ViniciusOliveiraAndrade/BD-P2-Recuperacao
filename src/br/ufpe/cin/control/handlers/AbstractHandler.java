@@ -7,43 +7,42 @@ import javax.swing.event.ChangeListener;
 
 import br.ufpe.cin.view.AdicionarAcaoWindow;
 import br.ufpe.cin.view.AdicionarVariavelWindow;
-import br.ufpe.cin.view.GerenciadoTransacaoPanel;
+import br.ufpe.cin.view.GerenciadorTransacaoPanel;
 
 public abstract class AbstractHandler implements ActionListener, Observer,ChangeListener  {
 	
-	private GerenciadoTransacaoPanel gtp;
+	private GerenciadorTransacaoPanel gerenciadorTransacaoPanel;
 	
-	private AdicionarAcaoWindow aaw;
+	private AdicionarAcaoWindow adicionarAcaoWindor;
 	
-	private AdicionarVariavelWindow avw;
+	private AdicionarVariavelWindow adicionarVariavelWindow;
 	
-	
-	public AbstractHandler(GerenciadoTransacaoPanel gtp) {
-		this.gtp = gtp;
+	public AbstractHandler(GerenciadorTransacaoPanel gerenciadorTransacaoPanel) {
+		this.gerenciadorTransacaoPanel = gerenciadorTransacaoPanel;
 	}
 
-	public GerenciadoTransacaoPanel getGtp() {
-		return gtp;
+	public GerenciadorTransacaoPanel getGerenciadorTransacaoPanel() {
+		return gerenciadorTransacaoPanel;
 	}
 
-	public void setGtp(GerenciadoTransacaoPanel gtp) {
-		this.gtp = gtp;
+	public void setGerenciadorTransacaoPanel(GerenciadorTransacaoPanel gerenciadorTransacaoPanel) {
+		this.gerenciadorTransacaoPanel = gerenciadorTransacaoPanel;
 	}
 
-	public AdicionarAcaoWindow getAaw() {
-		return aaw;
+	public AdicionarAcaoWindow getAdicionarAcaoWindow() {
+		return adicionarAcaoWindor;
 	}
 
-	public void setAaw(AdicionarAcaoWindow aaw) {
-		this.aaw = aaw;
+	public void setAdicionarAcaoWindow(AdicionarAcaoWindow adiconarAcaoWindow) {
+		this.adicionarAcaoWindor = adiconarAcaoWindow;
 	}
 
-	public AdicionarVariavelWindow getAvw() {
-		return avw;
+	public AdicionarVariavelWindow getAdicionarVariavelWindow() {
+		return adicionarVariavelWindow;
 	}
 
-	public void setAvw(AdicionarVariavelWindow avw) {
-		this.avw = avw;
+	public void setAdicionarVariavelWindow(AdicionarVariavelWindow adicionarVariavelWindow) {
+		this.adicionarVariavelWindow = adicionarVariavelWindow;
 	}
 	
 	

@@ -35,43 +35,43 @@ public class MemoriaHolder extends JPanel{
 	   }
 	
 	
-	public void addTransacao(TransacaoHolder t){
+	public void addTransacao(TransacaoHolder transacaoHolder){
         try {
-        	this.add(t);
+        	this.add(transacaoHolder);
      	   	this.update();
      	   	this.scrollDown();
      	   
          } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Não foi possível adicionar a transação "+ t.getIndicadorLabel().getText());
+            JOptionPane.showMessageDialog(this, "Não foi possível adicionar a transação "+ transacaoHolder.getIndicadorLabel().getText());
         }
     }
 	
 	
-	public void addEvento(EventoHolder ev){
+	public void addEvento(EventoHolder eventoHolder){
         try {
-        	this.add(ev);
+        	this.add(eventoHolder);
      	   	this.update();
      	   	this.scrollDown();
      	   
          } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Não foi possível adicionar o evento "+ ev.getText());
+            JOptionPane.showMessageDialog(this, "Não foi possível adicionar o evento "+ eventoHolder.getText());
         }
     }
 	
 	private void scrollDown() {
-		Rectangle r = this.getBounds();
- 	   	r.y = (r.height + r.height) + r.y;
- 	   	this.scrollRectToVisible(r);
+		Rectangle rectangle = this.getBounds();
+ 	   	rectangle.y = (rectangle.height + rectangle.height) + rectangle.y;
+ 	   	this.scrollRectToVisible(rectangle);
 	}
 	
 	public void update() {
 		this.revalidate();
  	   	this.repaint();
 	}
-	public void removerComponent(Component comp) {
-		this.remove(comp);
+	public void removerComponent(Component component) {
+		this.remove(component);
 		this.update();
 	}
 }

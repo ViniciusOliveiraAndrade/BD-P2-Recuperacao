@@ -11,10 +11,10 @@ public class TransacaoHolderHander extends Observable implements ActionListener{
 
 	private TransacaoHolder transacaoHolder;
 	
-	public TransacaoHolderHander(AbstractHandler ah, TransacaoHolder th) {
+	public TransacaoHolderHander(AbstractHandler abstractHandler, TransacaoHolder transacaoHolder) {
 		
-		this.addObserver(ah);
-		this.transacaoHolder = th;
+		this.addObserver(abstractHandler);
+		this.transacaoHolder = transacaoHolder;
 		this.transacaoHolder.getIniciarTransacaoButton().addActionListener(this);
 		this.transacaoHolder.getAdicionarAcaoButton().addActionListener(this);
 		this.transacaoHolder.getAbortarTransacaoButton().addActionListener(this);
@@ -44,17 +44,17 @@ public class TransacaoHolderHander extends Observable implements ActionListener{
 	
 	
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == this.transacaoHolder.getIniciarTransacaoButton()) {
+	public void actionPerformed(ActionEvent evento) {
+		if(evento.getSource() == this.transacaoHolder.getIniciarTransacaoButton()) {
 			this.iniciarTransacao();
 		}
-		if(e.getSource() == this.transacaoHolder.getAdicionarAcaoButton()) {
+		if(evento.getSource() == this.transacaoHolder.getAdicionarAcaoButton()) {
 			this.notificar(StringVariables.TRANSACAO_ACAO.getValue());
 		}
-		if(e.getSource() == this.transacaoHolder.getAbortarTransacaoButton()) {
+		if(evento.getSource() == this.transacaoHolder.getAbortarTransacaoButton()) {
 			this.notificar(StringVariables.TRANSACAO_ABORT.getValue());
 		}
-		if(e.getSource() == this.transacaoHolder.getCommitTransacaoButton()) {
+		if(evento.getSource() == this.transacaoHolder.getCommitTransacaoButton()) {
 			this.notificar(StringVariables.TRANSACAO_COMMIT.getValue());
 		}
 		

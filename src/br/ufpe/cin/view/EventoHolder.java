@@ -12,26 +12,26 @@ public class EventoHolder extends JLabel{
 	
 	private static final long serialVersionUID = 1L;
 
-	public EventoHolder(Evento e) {
+	public EventoHolder(Evento evento) {
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));	
 		this.setBackground(Color.WHITE);
 		this.setOpaque(true);
-		switch (e.getTipo()) {
+		switch (evento.getTipo()) {
 		case "TRANSACAO":
-			this.setText("[ START_TRANSACTION, T"+e.getTransacao().getCod()+" ]");
+			this.setText("[ START_TRANSACTION, T"+evento.getTransacao().getCod()+" ]");
 			break;
 		case "ACAO":
-			if (e.getAcao().getTipo() == StringVariables.ACAO_WRITE.getValue()) {
-				this.setText("[ WRITE_ITEM, T"+e.getTransacao().getCod() + ", "+e.getAcao().getVariavelAlvo().getNome() + ", " +e.getAcao().getValorVelho() + ", " +e.getAcao().getValorNovo()+" ]");
-			}else if (e.getAcao().getTipo() == StringVariables.ACAO_READ.getValue()) {
-				this.setText("[ READ_ITEM, T"+e.getTransacao().getCod() + ", "+e.getAcao().getVariavelAlvo().getNome()+" ]");
+			if (evento.getAcao().getTipo() == StringVariables.ACAO_WRITE.getValue()) {
+				this.setText("[ WRITE_ITEM, T"+evento.getTransacao().getCod() + ", "+evento.getAcao().getVariavelAlvo().getNome() + ", " +evento.getAcao().getValorVelho() + ", " +evento.getAcao().getValorNovo()+" ]");
+			}else if (evento.getAcao().getTipo() == StringVariables.ACAO_READ.getValue()) {
+				this.setText("[ READ_ITEM, T"+evento.getTransacao().getCod() + ", "+evento.getAcao().getVariavelAlvo().getNome()+" ]");
 			}
 			break;
 		case "CHECKPOINT":
 			this.setText("[ CHECKPOINT ]");
 			break;
 		case "VARIAVEL":
-			this.setText(e.getVariavel().getNome()+ " = " + e.getVariavel().getValor());
+			this.setText(evento.getVariavel().getNome()+ " = " + evento.getVariavel().getValor());
 			break;
 			
 		default:

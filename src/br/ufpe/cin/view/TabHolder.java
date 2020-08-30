@@ -12,9 +12,9 @@ public class TabHolder extends JTabbedPane {
 
 	private static final long serialVersionUID = 1L;
 	
-	private GerenciadoTransacaoPanel adiada;
-	private GerenciadoTransacaoPanel imediataA;
-	private GerenciadoTransacaoPanel imediataB;
+	private GerenciadorTransacaoPanel adiada;
+	private GerenciadorTransacaoPanel imediataA;
+	private GerenciadorTransacaoPanel imediataB;
 	
 	@SuppressWarnings("unused")
 	private AbstractHandler adiadaMunuHandler;
@@ -27,9 +27,9 @@ public class TabHolder extends JTabbedPane {
 	
 	
 	public TabHolder() {
-		this.adiada = new GerenciadoTransacaoPanel();
-		this.imediataA = new GerenciadoTransacaoPanel();
-		this.imediataB = new GerenciadoTransacaoPanel();
+		this.adiada = new GerenciadorTransacaoPanel();
+		this.imediataA = new GerenciadorTransacaoPanel();
+		this.imediataB = new GerenciadorTransacaoPanel();
 		
 		this.addTab("Adiada", this.adiada);
 		this.addTab("ImediataA", this.imediataA);
