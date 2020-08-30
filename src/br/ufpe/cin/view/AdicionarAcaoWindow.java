@@ -23,7 +23,7 @@ public class AdicionarAcaoWindow extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JLabel lblAdicionarAo = new JLabel("Adicionar Ação");
-		lblAdicionarAo.setBounds(119, 11, 71, 14);
+		lblAdicionarAo.setBounds(95, 11, 95, 14);
 		getContentPane().add(lblAdicionarAo);
 		
 		JLabel lblTipo = new JLabel("Tipo");
