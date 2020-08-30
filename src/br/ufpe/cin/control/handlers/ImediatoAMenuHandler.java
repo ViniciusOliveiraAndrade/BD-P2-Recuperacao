@@ -20,7 +20,7 @@ import br.ufpe.cin.view.EventoHolder;
 import br.ufpe.cin.view.GerenciadoTransacaoPanel;
 import br.ufpe.cin.view.TransacaoHolder;
 
-public class AdiadaMenuHandler extends AbstractHandler {
+public class ImediatoAMenuHandler extends AbstractHandler {
 
 	private ArrayList<TransacaoHolder> transacoes;
 	
@@ -38,7 +38,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 //	private adicionarVarivelWindow;
 //	private adicionarAcaoWindow;
 
-	public AdiadaMenuHandler(GerenciadoTransacaoPanel gtp) {
+	public ImediatoAMenuHandler(GerenciadoTransacaoPanel gtp) {
 		super(gtp);
 
 		this.getGtp().getMenuHolder().getAddVariavelButton().addActionListener(this);
@@ -345,5 +345,4 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		}
 		
 	}
-
 }
