@@ -7,11 +7,11 @@ import java.util.Observable;
 import br.ufpe.cin.model.StringVariables;
 import br.ufpe.cin.view.TransacaoHolder;
 
-public class TransacaoHolderHander extends Observable implements ActionListener{
+public class TransacaoHolderHandler extends Observable implements ActionListener{
 
 	private TransacaoHolder transacaoHolder;
 	
-	public TransacaoHolderHander(AbstractHandler abstractHandler, TransacaoHolder transacaoHolder) {
+	public TransacaoHolderHandler(AbstractHandler abstractHandler, TransacaoHolder transacaoHolder) {
 		
 		this.addObserver(abstractHandler);
 		this.transacaoHolder = transacaoHolder;

@@ -90,7 +90,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		TransacaoHolder transacaoHolder = new TransacaoHolder(transacao);
 		
 		@SuppressWarnings("unused")
-		TransacaoHolderHander transacaoHolderHander = new TransacaoHolderHander(this, transacaoHolder);
+		TransacaoHolderHandler transacaoHolderHander = new TransacaoHolderHandler(this, transacaoHolder);
 
 		this.getGerenciadorTransacaoPanel().getTransacoesHolder().addTransacao(transacaoHolder);
 		this.transacoes.add(transacaoHolder);
@@ -220,6 +220,18 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		}
 		return null;
 	}
+	
+	@Override
+	public void abortar(Transacao transacao) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void commit(Transacao transacao) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent evento) {
@@ -270,9 +282,9 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	
 	@Override
 	public void update(Observable observable, Object arg) {
-		if (observable instanceof TransacaoHolderHander) {
+		if (observable instanceof TransacaoHolderHandler) {
 			String tipo = (String) arg;
-			Transacao transacao = ((TransacaoHolderHander) observable).getTransacaoHolder().getT();
+			Transacao transacao = ((TransacaoHolderHandler) observable).getTransacaoHolder().getT();
 			this.transacaoAtual = transacao;
 			
 			switch (tipo) {
@@ -342,5 +354,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 		}
 		
 	}
+
+	
 
 }

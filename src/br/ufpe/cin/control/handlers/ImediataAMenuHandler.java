@@ -23,6 +23,9 @@ import br.ufpe.cin.view.TransacaoHolder;
 public class ImediataAMenuHandler extends AbstractHandler {
 
 	private ArrayList<TransacaoHolder> transacoes;
+	private ArrayList<TransacaoHolder> transacoesAtivas;
+	private ArrayList<TransacaoHolder> transacoesAbortadas;
+	private ArrayList<TransacaoHolder> transacoesComitadas;
 	
 	private ArrayList<Evento> eventosLogMemoria;
 	private ArrayList<Evento> eventosLogDisco;
@@ -48,6 +51,9 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.getGerenciadorTransacaoPanel().getMenuHolder().getRecuperarButton().addActionListener(this);
 
 		this.transacoes = new ArrayList<TransacaoHolder>();
+		this.transacoesAtivas = new ArrayList<TransacaoHolder>();
+		this.transacoesAbortadas = new ArrayList<TransacaoHolder>();
+		this.transacoesComitadas = new ArrayList<TransacaoHolder>();
 		
 		this.eventosLogMemoria = new ArrayList<Evento>();
 		this.eventosLogDisco = new ArrayList<Evento>();
@@ -71,29 +77,28 @@ public class ImediataAMenuHandler extends AbstractHandler {
 //		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
 //	}
 
-	private ArrayList<Transacao> pegarTransacoesDepoisCheckPoint(){
-		
-		ArrayList<Transacao> trasasoesDepoisCheckpoint = new ArrayList<>();
-		
-		Checkpoint utimoCheckpoint = this.getUtimoCheckPoint();
-		
-		if (utimoCheckpoint == null) {
-			utimoCheckpoint = new Checkpoint(this.checkpointCount++);
-		}
-		
-		for (int i = this.eventosLogDisco.size()-1; i >= 0 ; i-- ) {
-			Evento evento = this.eventosLogDisco.get(i);
-			if (evento.getTipo().equals(StringVariables.EVENTO_TRANSACAO.getValue()) || evento.getTipo().equals(StringVariables.EVENTO_ACAO.getValue())) {
-//				return evento.getCheckPoint();
-			}
-		}
-		
-		
-		
-		return null;
-	}
+//	private ArrayList<Transacao> pegarTransacoesDepoisCheckPoint(){
+//		
+//		ArrayList<Transacao> trasasoesDepoisCheckpoint = new ArrayList<>();
+//		
+//		Checkpoint utimoCheckpoint = this.getUtimoCheckPoint();
+//		
+//		if (utimoCheckpoint == null) {
+//			utimoCheckpoint = new Checkpoint(this.checkpointCount++);
+//		}
+//		
+//		for (int i = this.eventosLogDisco.size()-1; i >= 0 ; i-- ) {
+//			Evento evento = this.eventosLogDisco.get(i);
+//			if (evento.getTipo().equals(StringVariables.EVENTO_TRANSACAO.getValue()) || evento.getTipo().equals(StringVariables.EVENTO_ACAO.getValue())) {
+////				return evento.getCheckPoint();
+//			}
+//		}
+//		
+//		
+//		return null;
+//	}	
 	
-	
+		
 	private Checkpoint getUtimoCheckPoint() {
 		for (int i = this.eventosLogDisco.size()-1; i >= 0 ; i-- ) {
 			Evento evento = this.eventosLogDisco.get(i);
@@ -104,26 +109,26 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		return null;
 	}
 	
-	private void addEventoLogMemoria(Transacao t) {
-		Evento e = new Evento(t);
+	private void adicionarEventoLogMemoria(Transacao transacao) {
+		Evento e = new Evento(transacao);
 
 		this.eventosLogMemoria.add(e);
 		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
 
-	private void addEventoLogMemoria(Acao a) {
-		Evento e = new Evento(this.atual, a);
-		this.eventosLogMemoria.add(e);
-
-		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().addEvento(new EventoHolder(e));
+	private void adicionarEventoLogMemoria(Acao acao) {
+		this.atual.getAcoes().add(acao);
+		Evento evento = new Evento(this.atual, acao);
+		
+		this.eventosLogMemoria.add(evento);
+		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().addEvento(new EventoHolder(evento));
 	}
 
 	private void adicionarTransacao() {
 		Transacao t = new Transacao(this.transacaoCount++);
 		TransacaoHolder th = new TransacaoHolder(t);
 		@SuppressWarnings("unused")
-		TransacaoHolderHander thh = new TransacaoHolderHander(this, th);
-
+		TransacaoHolderHandler thh = new TransacaoHolderHandler(this, th);
 		this.getGerenciadorTransacaoPanel().getTransacoesHolder().addTransacao(th);
 		this.transacoes.add(th);
 	}
@@ -131,16 +136,6 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	private void adicionarCheckpoint() {
 		Checkpoint cp = new Checkpoint(this.checkpointCount++);
 		this.addEventoLogDisco(cp);
-	}
-
-	private void criarTelaAdicionarVariavel() {
-		this.setAdicionarVariavelWindow(new AdicionarVariavelWindow());
-		this.getAdicionarVariavelWindow().getAdicionarButton().addActionListener(this);
-	}
-
-	private void criarTelaAdicionarAcao() {
-		this.setAdicionarAcaoWindow(new AdicionarAcaoWindow());
-		this.getAdicionarAcaoWindow().getAdicionarButton().addActionListener(this);
 	}
 
 	private void adicionarVariavel() {
@@ -168,7 +163,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			
 			if (!this.isVariavelCache(variavel.getNome())) {
 				Acao acaoLeitura = new Acao(variavel);
-				this.addEventoLogMemoria(acaoLeitura);
+				this.adicionarEventoLogMemoria(acaoLeitura);
 				Variavel variavel_locked = new Variavel(variavel.getNome(), variavel.getValor());
 				variavel_locked.locked(variavel.getTransacaoCod());
 				this.variaveisCache.add(variavel_locked);
@@ -176,14 +171,14 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			
 			long valor = Long.valueOf(this.getAdicionarAcaoWindow().getValorTextField().getText());
 			Acao acaoEscrita = new Acao(variavel, valor );
-			this.addEventoLogMemoria(acaoEscrita);
+			this.adicionarEventoLogMemoria(acaoEscrita);
 			this.getVariavelCache(variavel.getNome()).setValor(valor);
 			this.updateDisplayCache();
 			
 		} if ((String.valueOf(this.getAdicionarAcaoWindow().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_READ.getValue())) {
 			
 			Acao acaoLeitura = new Acao(variavel );
-			this.addEventoLogMemoria(acaoLeitura);
+			this.adicionarEventoLogMemoria(acaoLeitura);
 			
 			if (!this.isVariavelCache(variavel.getNome())) {
 				Variavel variavel_locked =new  Variavel(variavel.getNome(), variavel.getValor());
@@ -196,6 +191,16 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		
 		this.getAdicionarAcaoWindow().setVisible(false);
 		this.getAdicionarAcaoWindow().dispose();
+	}
+
+	private void criarTelaAdicionarVariavel() {
+		this.setAdicionarVariavelWindow(new AdicionarVariavelWindow());
+		this.getAdicionarVariavelWindow().getAdicionarButton().addActionListener(this);
+	}
+
+	private void criarTelaAdicionarAcao() {
+		this.setAdicionarAcaoWindow(new AdicionarAcaoWindow());
+		this.getAdicionarAcaoWindow().getAdicionarButton().addActionListener(this);
 	}
 
 	private void estourarMemoria() {
@@ -255,6 +260,40 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		}
 		return null;
 	}
+	
+	private void removerVariavelCache(String nome){
+		for (Variavel v : this.variaveisCache) {
+			if (v.getNome().equals(nome)) {
+				this.variaveisCache.remove(v);
+			}
+		}
+	}
+	
+	private void colocarVariavelDoCacheNoDisco(String nomeVariável) {
+		Variavel variavel = this.getVariavelCache(nomeVariável);
+		if(variavel != null) {
+			for (Variavel variavel_aux: this.variaveisDisco) {
+				if(variavel_aux.getNome().equals(variavel.getNome())) {
+					variavel_aux.setValor(variavel.getValor());
+					this.removerVariavelCache(nomeVariável);
+					this.updateDisplayCache();
+					this.updateDisplayDisco();
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void abortar(Transacao transacao) {
+		
+		
+	}
+
+	@Override
+	public void commit(Transacao transacao) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -305,14 +344,14 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof TransacaoHolderHander) {
+		if (o instanceof TransacaoHolderHandler) {
 			String tipo = (String) arg;
-			Transacao t = ((TransacaoHolderHander) o).getTransacaoHolder().getT();
-			this.atual = t;
+			Transacao transacao = ((TransacaoHolderHandler) o).getTransacaoHolder().getT();
+			this.atual = transacao;
 			
 			switch (tipo) {
 			case "INICIO":
-				this.addEventoLogMemoria(t);
+				this.adicionarEventoLogMemoria(transacao);
 				break;
 			case "ACAO":
 				this.criarTelaAdicionarAcao();
@@ -357,6 +396,8 @@ public class ImediataAMenuHandler extends AbstractHandler {
 				
 				break;
 			case "ABORT":
+				this.abortar(transacao);
+//				this.colocarVariavelDoCacheNoDisco("x");
 //				System.out.println("T"+t.getCod() +" "+StringVariables.TRANSACAO_ABORT.getValue());
 				break;
 			case "COMMIT":
@@ -378,5 +419,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		}
 		
 	}
+
+	
 
 }

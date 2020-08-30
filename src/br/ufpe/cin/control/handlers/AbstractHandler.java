@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import javax.swing.event.ChangeListener;
 
+import br.ufpe.cin.model.Transacao;
 import br.ufpe.cin.view.AdicionarAcaoWindow;
 import br.ufpe.cin.view.AdicionarVariavelWindow;
 import br.ufpe.cin.view.GerenciadorTransacaoPanel;
@@ -17,10 +18,15 @@ public abstract class AbstractHandler implements ActionListener, Observer,Change
 	
 	private AdicionarVariavelWindow adicionarVariavelWindow;
 	
+	
 	public AbstractHandler(GerenciadorTransacaoPanel gerenciadorTransacaoPanel) {
 		this.gerenciadorTransacaoPanel = gerenciadorTransacaoPanel;
 	}
 
+	public abstract void abortar(Transacao transacao);
+	
+	public abstract void commit(Transacao transacao);
+	
 	public GerenciadorTransacaoPanel getGerenciadorTransacaoPanel() {
 		return gerenciadorTransacaoPanel;
 	}
