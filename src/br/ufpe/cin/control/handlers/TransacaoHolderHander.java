@@ -9,24 +9,24 @@ import br.ufpe.cin.view.TransacaoHolder;
 
 public class TransacaoHolderHander extends Observable implements ActionListener{
 
-	private TransacaoHolder transaçãoHolder;
+	private TransacaoHolder transacaoHolder;
 	
 	public TransacaoHolderHander(AbstractHandler ah, TransacaoHolder th) {
 		
 		this.addObserver(ah);
-		this.transaçãoHolder = th;
-		this.transaçãoHolder.getIniciarTransacaoButton().addActionListener(this);
-		this.transaçãoHolder.getAdicionarAcaoButton().addActionListener(this);
-		this.transaçãoHolder.getAbortarTransacaoButton().addActionListener(this);
-		this.transaçãoHolder.getCommitTransacaoButton().addActionListener(this);
+		this.transacaoHolder = th;
+		this.transacaoHolder.getIniciarTransacaoButton().addActionListener(this);
+		this.transacaoHolder.getAdicionarAcaoButton().addActionListener(this);
+		this.transacaoHolder.getAbortarTransacaoButton().addActionListener(this);
+		this.transacaoHolder.getCommitTransacaoButton().addActionListener(this);
 		
-		this.transaçãoHolder.getAdicionarAcaoButton().setVisible(false);
-		this.transaçãoHolder.getAbortarTransacaoButton().setVisible(false);
-		this.transaçãoHolder.getCommitTransacaoButton().setVisible(false);
+		this.transacaoHolder.getAdicionarAcaoButton().setVisible(false);
+		this.transacaoHolder.getAbortarTransacaoButton().setVisible(false);
+		this.transacaoHolder.getCommitTransacaoButton().setVisible(false);
 	}
 	
-	public TransacaoHolder getTransaçãoHolder() {
-		return transaçãoHolder;
+	public TransacaoHolder getTransacaoHolder() {
+		return transacaoHolder;
 	}
 
 	private void notificar(String tipo) {
@@ -36,25 +36,25 @@ public class TransacaoHolderHander extends Observable implements ActionListener{
 	
 	private void iniciarTransacao() {
 		this.notificar(StringVariables.TRANSACAO_INICIO.getValue());
-		this.transaçãoHolder.getIniciarTransacaoButton().setVisible(false);
-		this.transaçãoHolder.getAdicionarAcaoButton().setVisible(true);
-		this.transaçãoHolder.getAbortarTransacaoButton().setVisible(true);
-		this.transaçãoHolder.getCommitTransacaoButton().setVisible(true);
+		this.transacaoHolder.getIniciarTransacaoButton().setVisible(false);
+		this.transacaoHolder.getAdicionarAcaoButton().setVisible(true);
+		this.transacaoHolder.getAbortarTransacaoButton().setVisible(true);
+		this.transacaoHolder.getCommitTransacaoButton().setVisible(true);
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == this.transaçãoHolder.getIniciarTransacaoButton()) {
+		if(e.getSource() == this.transacaoHolder.getIniciarTransacaoButton()) {
 			this.iniciarTransacao();
 		}
-		if(e.getSource() == this.transaçãoHolder.getAdicionarAcaoButton()) {
+		if(e.getSource() == this.transacaoHolder.getAdicionarAcaoButton()) {
 			this.notificar(StringVariables.TRANSACAO_ACAO.getValue());
 		}
-		if(e.getSource() == this.transaçãoHolder.getAbortarTransacaoButton()) {
+		if(e.getSource() == this.transacaoHolder.getAbortarTransacaoButton()) {
 			this.notificar(StringVariables.TRANSACAO_ABORT.getValue());
 		}
-		if(e.getSource() == this.transaçãoHolder.getCommitTransacaoButton()) {
+		if(e.getSource() == this.transacaoHolder.getCommitTransacaoButton()) {
 			this.notificar(StringVariables.TRANSACAO_COMMIT.getValue());
 		}
 		
