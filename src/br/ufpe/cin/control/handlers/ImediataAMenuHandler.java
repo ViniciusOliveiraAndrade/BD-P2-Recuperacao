@@ -288,7 +288,6 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		}
 		if(i > -1) {
 			this.variaveisCache.remove(i);
-//			System.out.println("Remove "+i+" do cache");
 		}
 		
 		this.updateDisplayCache();
@@ -334,7 +333,6 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			}
 		} 
 		
-		System.out.println("saiu do primeiro");
 		for(Variavel variavel_aux: variaveis_auxiliares) {
 			this.colocarVariavelDoCacheNoDisco(variavel_aux.getNome());
 		}
@@ -355,12 +353,36 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.updateDisplayTransacoes();
 		this.adicionarEventoLogMemoria(this.atual,true);
 	}
-
-	
 	
 	@Override
 	public void commit(Transacao transacao) {
-		// TODO Auto-generated method stub
+		ArrayList<Variavel> variaveis_auxiliares = new ArrayList<Variavel>();
+		int quantidadeAcaoes = transacao.getAcoes().size();
+		for (int i = 0; i < quantidadeAcaoes; i++ ) {
+			Acao acao = transacao.getAcoes().get(i);
+			variaveis_auxiliares.add(acao.getVariavelAlvo());
+		} 
+		
+		for(Variavel variavel_aux: variaveis_auxiliares) {
+			this.colocarVariavelDoCacheNoDisco(variavel_aux.getNome());
+		}
+		
+		this.updateDisplayCache();
+		this.updateDisplayDisco();
+		
+
+		int j = 0;
+		for(int i = this.transacoes.size()-1;i >=0; i--) {
+			if(this.transacoes.get(i).getT().getCod() == transacao.getCod()) {
+				this.transacoesComitadas.add(this.transacoes.get(i));
+				this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(this.transacoes.get(i));
+				j = i;
+			}
+		}
+		
+		this.transacoes.remove(j);
+		this.updateDisplayTransacoes();
+		this.adicionarEventoLogMemoria(this.atual,false);
 		
 	}
 
@@ -420,6 +442,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			
 			switch (tipo) {
 			case "INICIO":
+				
 				this.adicionarEventoLogMemoria(transacao);
 				break;
 			case "ACAO":
@@ -466,10 +489,10 @@ public class ImediataAMenuHandler extends AbstractHandler {
 				break;
 			case "ABORT":
 				this.abortar(transacao);
-//				this.colocarVariavelDoCacheNoDisco("x");
 //				System.out.println("T"+t.getCod() +" "+StringVariables.TRANSACAO_ABORT.getValue());
 				break;
 			case "COMMIT":
+				this.commit(transacao);
 //				System.out.println("T"+t.getCod() +" "+StringVariables.TRANSACAO_COMMIT.getValue());
 				break;
 			default:
