@@ -25,7 +25,7 @@ public class GerenciadorTransacaoPanel extends JPanel{
 	public GerenciadorTransacaoPanel() {
 		this.transacoesHolder = new MemoriaHolder("Transações");
 		this.menuHolder = new MenuPanel();
-		this.setLayout(new GridLayout(3,2));
+		this.setLayout(new GridLayout(3,2, 5,3));
 	
 		this.cacheHolder = new MemoriaHolder("Cache");
 		this.logMemoriaHolder = new MemoriaHolder("Log de Memória");
