@@ -38,8 +38,6 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	private int transacaoCount;
 	private int checkpointCount;
 
-//	private adicionarVarivelWindow;
-//	private adicionarAcaoWindow;
 
 	public ImediataAMenuHandler(GerenciadorTransacaoPanel gerenciadorTransacaoPanel) {
 		super(gerenciadorTransacaoPanel);
@@ -71,11 +69,6 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(evento));
 	}
 
-//	private void addEventoLogDisco(Transacao t) {
-//		Evento e = new Evento(t);
-//		this.eventosDisco.add(e);
-//		this.getGtp().getLogDiscoHolder().addEvento(new EventoHolder(e));
-//	}
 
 //	private ArrayList<Transacao> pegarTransacoesDepoisCheckPoint(){
 //		
@@ -207,6 +200,42 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	private void criarTelaAdicionarAcao() {
 		this.setAdicionarAcaoWindow(new AdicionarAcaoWindow());
 		this.getAdicionarAcaoWindow().getAdicionarButton().addActionListener(this);
+		
+		ArrayList<String> disponiveis = new ArrayList<>();
+		
+		for (Variavel v : this.variaveisCache) {
+			if (!v.isLocked()) {
+				disponiveis.add(v.getNome());
+			}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
+				disponiveis.add(v.getNome());
+			}
+		}
+		
+		for (Variavel v : this.variaveisDisco) {
+			if (!this.isVariavelCache(v.getNome())) {
+				if (!v.isLocked()) {
+					disponiveis.add(v.getNome());
+				}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
+					disponiveis.add(v.getNome());
+				}
+			}
+		}
+		
+		if (disponiveis.size() < 1) {
+			disponiveis.add("");
+		}
+		
+		String[] acao = new String[2];
+		acao[0] = StringVariables.ACAO_READ.getValue();
+		acao[1] = StringVariables.ACAO_WRITE.getValue();
+
+		this.getAdicionarAcaoWindow().getVariavelSpinner().setModel(new SpinnerListModel(disponiveis));
+		((DefaultEditor) this.getAdicionarAcaoWindow().getVariavelSpinner().getEditor()).getTextField().setEditable(false);
+
+		this.getAdicionarAcaoWindow().getTipoAcaoSpinner().setModel(new SpinnerListModel(acao));
+		((DefaultEditor) this.getAdicionarAcaoWindow().getTipoAcaoSpinner().getEditor()).getTextField().setEditable(false);
+		this.getAdicionarAcaoWindow().getTipoAcaoSpinner().addChangeListener(this);
+		this.getAdicionarAcaoWindow().visibilidade();
 	}
 
 	private void estourarMemoria() {
@@ -279,6 +308,18 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		return null;
 	}
 	
+	private TransacaoHolder getTransacaoHolder(int transacaoCod) {
+		
+		for(int i = this.transacoes.size()-1;i >=0; i--) {
+			if(this.transacoes.get(i).getT().getCod() == transacaoCod) {
+				return this.transacoes.get(i);
+				
+			}
+		}
+		
+		return null;
+	}
+	
 	private void removerVariavelCache(String nome){
 		int i = -1;
 		for (int j = this.variaveisCache.size()-1; j >= 0;j--) {
@@ -308,19 +349,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		}
 	}
 	
-//	private void colocarVariavelDoCacheNoDisco(String nomeVariável) {
-//		Variavel variavel = this.getVariavelCache(nomeVariável);
-//		if(variavel != null) {
-//			for (Variavel variavel_aux: this.variaveisDisco) {
-//				if(variavel_aux.getNome().equals(variavel.getNome())) {
-//					variavel_aux.setValor(variavel.getValor());
-//					variavel_aux.unlock();
-//					this.removerVariavelCache(nomeVariável);
-//					
-//				}
-//			}
-//		}
-//	}
+	
 	
 	@Override
 	public void abortar(Transacao transacao) {
@@ -340,16 +369,24 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.updateDisplayCache();
 		this.updateDisplayDisco();
 		
-
-		int j = 0;
-		for(int i = this.transacoes.size()-1;i >=0; i--) {
-			if(this.transacoes.get(i).getT().getCod() == transacao.getCod()) {
-				this.transacoesAbortadas.add(this.transacoes.get(i));
-				this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(this.transacoes.get(i));
-				j = i;
-			}
-		}
-		this.transacoes.remove(j);
+		
+//		int j = 0;
+//		for(int i = this.transacoes.size()-1;i >=0; i--) {
+//			if(this.transacoes.get(i).getT().getCod() == transacao.getCod()) {
+//				this.transacoesAbortadas.add(this.transacoes.get(i));
+//				this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(this.transacoes.get(i));
+//				j = i;
+//			}
+//		}
+//		this.transacoes.remove(j);
+		TransacaoHolder transacaoHolder = this.getTransacaoHolder(transacao.getCod());
+		
+		this.transacoesAbortadas.add(transacaoHolder);
+		this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(transacaoHolder);
+		
+		this.transacoes.remove(transacaoHolder);
+		this.transacoesAtivas.remove(transacaoHolder);
+		
 		this.updateDisplayTransacoes();
 		this.adicionarEventoLogMemoria(this.atual,true);
 	}
@@ -371,21 +408,40 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.updateDisplayDisco();
 		
 
-		int j = 0;
-		for(int i = this.transacoes.size()-1;i >=0; i--) {
-			if(this.transacoes.get(i).getT().getCod() == transacao.getCod()) {
-				this.transacoesComitadas.add(this.transacoes.get(i));
-				this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(this.transacoes.get(i));
-				j = i;
-			}
-		}
+//		int j = 0;
+//		for(int i = this.transacoes.size()-1;i >=0; i--) {
+//			if(this.transacoes.get(i).getT().getCod() == transacao.getCod()) {
+//				this.transacoesComitadas.add(this.transacoes.get(i));
+//				this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(this.transacoes.get(i));
+//				j = i;
+//			}
+//		}
+//		
+//		this.transacoes.remove(j);
 		
-		this.transacoes.remove(j);
+		TransacaoHolder transacaoHolder = this.getTransacaoHolder(transacao.getCod());
+		
+		this.transacoesComitadas.add(transacaoHolder);
+		this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(transacaoHolder);
+		
+		this.transacoes.remove(transacaoHolder);
+		this.transacoesAtivas.remove(transacaoHolder);
+		
 		this.updateDisplayTransacoes();
 		this.adicionarEventoLogMemoria(this.atual,false);
 		
 	}
 
+	@Override
+	public void undo(Transacao transacao) {
+		
+	}
+	
+	@Override
+	public void redo(Transacao transacao) {
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -435,6 +491,8 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	
 	@Override
 	public void update(Observable o, Object arg) {
+		
+		
 		if (o instanceof TransacaoHolderHandler) {
 			String tipo = (String) arg;
 			Transacao transacao = ((TransacaoHolderHandler) o).getTransacaoHolder().getT();
@@ -444,47 +502,11 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			case "INICIO":
 				
 				this.adicionarEventoLogMemoria(transacao);
+				this.transacoesAtivas.add(this.getTransacaoHolder(transacao.getCod()));
+				
 				break;
 			case "ACAO":
 				this.criarTelaAdicionarAcao();
-				ArrayList<String> disponiveis = new ArrayList<>();
-				
-				
-				for (Variavel v : this.variaveisCache) {
-					if (!v.isLocked()) {
-						disponiveis.add(v.getNome());
-					}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
-						disponiveis.add(v.getNome());
-					}
-					
-				}
-				
-				for (Variavel v : this.variaveisDisco) {
-					if (!this.isVariavelCache(v.getNome())) {
-						if (!v.isLocked()) {
-							disponiveis.add(v.getNome());
-						}else if (v.isLocked() && v.getTransacaoCod() == this.atual.getCod()) {
-							disponiveis.add(v.getNome());
-						}
-					}
-				}
-				
-				
-				if (disponiveis.size() < 1) {
-					disponiveis.add("");
-				}
-				
-				String[] acao = new String[2];
-				acao[0] = StringVariables.ACAO_READ.getValue();
-				acao[1] = StringVariables.ACAO_WRITE.getValue();
-
-				this.getAdicionarAcaoWindow().getVariavelSpinner().setModel(new SpinnerListModel(disponiveis));
-				((DefaultEditor) this.getAdicionarAcaoWindow().getVariavelSpinner().getEditor()).getTextField().setEditable(false);
-
-				this.getAdicionarAcaoWindow().getTipoAcaoSpinner().setModel(new SpinnerListModel(acao));
-				((DefaultEditor) this.getAdicionarAcaoWindow().getTipoAcaoSpinner().getEditor()).getTextField().setEditable(false);
-				this.getAdicionarAcaoWindow().getTipoAcaoSpinner().addChangeListener(this);
-				this.getAdicionarAcaoWindow().visibilidade();
 				
 				break;
 			case "ABORT":
@@ -498,7 +520,15 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			default:
 				break;
 			}
+			
+			
 		}
+		
+//		System.out.println("Transcoes: "+this.transacoes.size());
+//		System.out.println("Transcoes Ativas: "+this.transacoesAtivas.size());
+//		System.out.println("Transcoes Abortadas: "+this.transacoesAbortadas.size());
+//		System.out.println("Transcoes Commitadas: "+this.transacoesComitadas.size());
+//		System.out.println("================================================");
 	}
 
 	@Override

@@ -223,13 +223,21 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	
 	@Override
 	public void abortar(Transacao transacao) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void commit(Transacao transacao) {
-		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void undo(Transacao transacao) {
+		
+	}
+	
+	@Override
+	public void redo(Transacao transacao) {
 		
 	}
 
