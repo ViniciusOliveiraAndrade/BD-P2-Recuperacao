@@ -143,6 +143,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	private void adicionarCheckpoint() {
 		Checkpoint cp = new Checkpoint(this.checkpointCount++);
 		this.addEventoLogDisco(cp);
+		this.estourarMemoria();
 	}
 
 	private void adicionarVariavel() {
@@ -253,7 +254,17 @@ public class AdiadaMenuHandler extends AbstractHandler {
 			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().update();
 		}
 		this.eventosLogMemoria.clear();
-
+		
+		ArrayList<String> listaNome = new ArrayList<>();
+		
+		for (int i = 0; i < this.variaveisCache.size(); i ++) {
+			listaNome.add(this.variaveisCache.get(i).getNome());
+		}
+		
+		for(String s : listaNome) {
+			this.colocarVariavelDoCacheNoDisco(s, true);
+		}
+		
 	}
 
 	private void updateDisplayCache(){

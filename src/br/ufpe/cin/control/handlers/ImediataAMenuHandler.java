@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 import javax.swing.JSpinner.DefaultEditor;
-import javax.swing.JOptionPane;
 import javax.swing.SpinnerListModel;
 import javax.swing.event.ChangeEvent;
 
@@ -36,6 +35,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 
 	private Transacao transacaoAtual;
 
+	@SuppressWarnings("unused")
 	private Checkpoint checkpointAtual;
 
 	private int transacaoCount;
@@ -71,6 +71,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(evento));
 	}
 
+	@SuppressWarnings("unused")
 	private Checkpoint getUtimoCheckPoint() {
 		for (int i = this.eventosLogDisco.size() - 1; i >= 0; i--) {
 			Evento evento = this.eventosLogDisco.get(i);
@@ -88,6 +89,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
 
+	@SuppressWarnings("unused")
 	private void adicionarEventoLogMemoria(Transacao transacao, boolean abort) {
 		Evento e = new Evento(transacao, abort);
 
@@ -249,14 +251,19 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	}
 
 	private void estourarMemoria() {
+		
 		this.colocarVariavelDoCacheNoDisco(this.variaveisCache.get(0).getNome(),true);
+		
 //		for (Evento e : this.eventosLogMemoria) {
 //			this.eventosLogDisco.add(e);
 //			this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(e));
 //			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().remove(0);
 //			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().update();
 //		}
-//		this.eventosLogMemoria.clear();
+		
+		this.eventosLogMemoria.clear();
+		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().removeAll();
+		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().update();
 
 	}
 
@@ -288,6 +295,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().update();
 	}
 
+	@SuppressWarnings("unused")
 	private void updateDisplayLogMemoria() {
 		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().removeAll();
 
@@ -435,6 +443,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		
 //		this.eventosLogDisco.add(this.eventosLogMemoria.get(this.eventosLogMemoria.size()-1));
 //		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(this.eventosLogDisco.get(this.eventosLogDisco.size()-1)));
+		
 		transacao.abortT();
 		
 		this.updateDisplayTransacoes();
@@ -476,6 +485,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		transacao.commitT();
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void undo() {
 		ArrayList<Transacao> transacoesRefeitas = new ArrayList<Transacao>();
@@ -532,6 +542,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		}
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
 	public void redo() {
 		ArrayList<Transacao> transacoesRefeitas = new ArrayList<Transacao>();
