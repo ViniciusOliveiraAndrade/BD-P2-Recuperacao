@@ -68,30 +68,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.eventosLogDisco.add(evento);
 		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(evento));
 	}
-
-
-//	private ArrayList<Transacao> pegarTransacoesDepoisCheckPoint(){
-//		
-//		ArrayList<Transacao> trasasoesDepoisCheckpoint = new ArrayList<>();
-//		
-//		Checkpoint utimoCheckpoint = this.getUtimoCheckPoint();
-//		
-//		if (utimoCheckpoint == null) {
-//			utimoCheckpoint = new Checkpoint(this.checkpointCount++);
-//		}
-//		
-//		for (int i = this.eventosLogDisco.size()-1; i >= 0 ; i-- ) {
-//			Evento evento = this.eventosLogDisco.get(i);
-//			if (evento.getTipo().equals(StringVariables.EVENTO_TRANSACAO.getValue()) || evento.getTipo().equals(StringVariables.EVENTO_ACAO.getValue())) {
-////				return evento.getCheckPoint();
-//			}
-//		}
-//		
-//		
-//		return null;
-//	}	
 	
-		
 	private Checkpoint getUtimoCheckPoint() {
 		for (int i = this.eventosLogDisco.size()-1; i >= 0 ; i-- ) {
 			Evento evento = this.eventosLogDisco.get(i);
@@ -266,6 +243,24 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			this.getGerenciadorTransacaoPanel().getDiscoHolder().addEvento(new EventoHolder(new Evento(v)));
 		}
 		this.getGerenciadorTransacaoPanel().getDiscoHolder().update();
+	}
+	
+	private void updateDisplayLogDisco(){
+		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().removeAll();
+		
+		for (Evento evento : this.eventosLogDisco) {
+			this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(evento));
+		}
+		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().update();
+	}
+	
+	private void updateDisplayLogMemoria(){
+		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().removeAll();
+		
+		for (Evento evento : this.eventosLogMemoria) {
+			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().addEvento(new EventoHolder(evento));
+		}
+		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().update();
 	}
 	
 	private void updateDisplayTransacoes(){
