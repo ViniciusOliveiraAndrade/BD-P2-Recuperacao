@@ -462,12 +462,12 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	}
 
 	@Override
-	public void undo(Transacao transacao) {
+	public void undo() {
 		
 	}
 	
 	@Override
-	public void redo(Transacao transacao) {
+	public void redo() {
 		
 	}
 	

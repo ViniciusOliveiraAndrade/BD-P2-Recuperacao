@@ -27,9 +27,9 @@ public abstract class AbstractHandler implements ActionListener, Observer,Change
 	
 	public abstract void commit(Transacao transacao);
 
-	public abstract void undo(Transacao transacao);
+	public abstract void undo();
 	
-	public abstract void redo(Transacao transacao);
+	public abstract void redo();
 	
 	public GerenciadorTransacaoPanel getGerenciadorTransacaoPanel() {
 		return gerenciadorTransacaoPanel;
