@@ -471,12 +471,12 @@ public class ImediataAMenuHandler extends AbstractHandler {
 
 	@Override
 	public void undo() {
-		ArrayList<String> transacoesRefeitas = new ArrayList<String>();
+		ArrayList<Transacao> transacoesRefeitas = new ArrayList<Transacao>();
 //		Fazer Undo nas ativaas
 		ArrayList<Integer> indexs = new ArrayList<>();
 		for (int i = this.transacoesAtivas.size() - 1; i >= 0; i--) {
 			if(!transacoesRefeitas.contains("T"+this.transacoesAtivas.get(i).getTransacao().getCod())) {
-				transacoesRefeitas.add("T"+this.transacoesAtivas.get(i).getTransacao().getCod());
+				transacoesRefeitas.add(this.transacoesAtivas.get(i).getTransacao());
 			}
 
 			ArrayList<Variavel> variaveis_auxiliares = new ArrayList<Variavel>();
@@ -514,18 +514,20 @@ public class ImediataAMenuHandler extends AbstractHandler {
 //			this.transacoes.remove(this.getTransacaoHolder(i.intValue()));
 //		}
 		
+		
+		
 		this.updateDisplayTransacoes();
 		
-		String msg = "";
-		for (String s: transacoesRefeitas) {
-			msg = msg + s +" UNDO\n";
+		for (Transacao transacao: transacoesRefeitas) {
+			Evento evento = new Evento(transacao, "UNDO");
+			this.eventosLogDisco.add(evento);
+			this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(evento));
 		}
-		JOptionPane.showMessageDialog(getGerenciadorTransacaoPanel(), msg);
 	}
 
 	@Override
 	public void redo() {
-		ArrayList<String> transacoesRefeitas = new ArrayList<String>();
+		ArrayList<Transacao> transacoesRefeitas = new ArrayList<Transacao>();
 //		Fazer redo nas comitadas
 		ArrayList<Integer> indexs = new ArrayList<>();
 		for (int i = 0; i < this.transacoesComitadas.size(); i++) {
@@ -542,7 +544,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 						
 						variaveisUsadas.add(acao.getVariavelAlvo().getNome());
 						if(!transacoesRefeitas.contains("T"+this.transacoesComitadas.get(i).getTransacao().getCod())) {
-							transacoesRefeitas.add("T"+this.transacoesComitadas.get(i).getTransacao().getCod());
+							transacoesRefeitas.add(this.transacoesComitadas.get(i).getTransacao());
 						}
 						
 						if (this.isVariavelCache(acao.getVariavelAlvo().getNome())) {
@@ -577,11 +579,12 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		
 		this.updateDisplayTransacoes();
 		
-		String msg = "";
-		for (String s: transacoesRefeitas) {
-			msg = msg + s +" REDO \n";
+		for (Transacao transacao: transacoesRefeitas) {
+			Evento evento = new Evento(transacao, "REDO");
+			this.eventosLogDisco.add(evento);
+			this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(evento));
 		}
-		JOptionPane.showMessageDialog(getGerenciadorTransacaoPanel(), msg);
+		this.updateDisplayLogDisco();
 	}
 
 	@Override

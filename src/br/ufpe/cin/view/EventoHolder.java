@@ -39,6 +39,13 @@ public class EventoHolder extends JLabel{
 		case "COMMIT":
 			this.setText("[ COMMIT_TRANSACTION, T"+evento.getTransacao().getCod()+" ]");
 			break;
+		case "UNDO_REDO":
+			if(evento.getUNDO_REDO() == "UNDO") {
+				this.setText("[UNDO, T"+evento.getTransacao().getCod()+" ]");
+			}else {
+				this.setText("[REDO, T"+evento.getTransacao().getCod()+" ]");
+			}
+			break;
 			
 		default:
 			break;

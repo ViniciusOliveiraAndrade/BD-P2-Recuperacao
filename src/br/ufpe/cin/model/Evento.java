@@ -3,6 +3,8 @@ package br.ufpe.cin.model;
 public class Evento {
 	
 	private String tipo;
+	private String UNDO_REDO;
+
 	private Transacao transacao;
 	private Checkpoint checkPoint;
 	private Acao acao;
@@ -30,6 +32,13 @@ public class Evento {
 			this.tipo = StringVariables.TRANSACAO_COMMIT.getValue();
 		}
 		this.transacao = transacao;
+	}
+	
+	public Evento(Transacao transacao, String UNDO_REDO) {
+		super();
+		this.tipo = "UNDO_REDO";
+		this.transacao = transacao;
+		this.UNDO_REDO = UNDO_REDO;
 	}
 
 
@@ -68,6 +77,11 @@ public class Evento {
 
 	public Variavel getVariavel() {
 		return variavel;
+	}
+
+
+	public String getUNDO_REDO() {
+		return UNDO_REDO;
 	}
 	
 
