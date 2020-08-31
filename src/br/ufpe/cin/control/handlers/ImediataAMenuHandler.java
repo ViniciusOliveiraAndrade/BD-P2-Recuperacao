@@ -111,6 +111,13 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(evento));
 	}
 
+	private void adicionarEventoLogDisco(Transacao transacao, boolean abort) {
+		Evento e = new Evento(transacao, abort);
+
+		this.eventosLogDisco.add(e);
+		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(e));
+	}
+	
 	private void adicionarTransacao() {
 		Transacao t = new Transacao(this.transacaoCount++);
 		TransacaoHolder th = new TransacaoHolder(t);
@@ -424,10 +431,10 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.transacoesAtivas.remove(transacaoHolder);
 
 		
-		this.adicionarEventoLogMemoria(this.transacaoAtual, true);
+		this.adicionarEventoLogDisco(this.transacaoAtual, true);
 		
-		this.eventosLogDisco.add(this.eventosLogMemoria.get(this.eventosLogMemoria.size()-1));
-		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(this.eventosLogDisco.get(this.eventosLogDisco.size()-1)));
+//		this.eventosLogDisco.add(this.eventosLogMemoria.get(this.eventosLogMemoria.size()-1));
+//		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(this.eventosLogDisco.get(this.eventosLogDisco.size()-1)));
 		transacao.abortT();
 		
 		this.updateDisplayTransacoes();
@@ -461,10 +468,10 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.transacoesAtivas.remove(transacaoHolder);
 
 		this.updateDisplayTransacoes();
-		this.adicionarEventoLogMemoria(this.transacaoAtual, false);
+		this.adicionarEventoLogDisco(this.transacaoAtual, false);
 		
-		this.eventosLogDisco.add(this.eventosLogMemoria.get(this.eventosLogMemoria.size()-1));
-		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(this.eventosLogDisco.get(this.eventosLogDisco.size()-1)));
+//		this.eventosLogDisco.add(this.eventosLogMemoria.get(this.eventosLogMemoria.size()-1));
+//		this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(this.eventosLogDisco.get(this.eventosLogDisco.size()-1)));
 //		this.adicionarEventoLogDisco(this.transacaoAtual, false);
 		transacao.commitT();
 	}
@@ -555,7 +562,6 @@ public class ImediataAMenuHandler extends AbstractHandler {
 							this.variaveisCache.add(this.getVariavelDisco(acao.getVariavelAlvo().getNome()));
 							this.getVariavelCache(acao.getVariavelAlvo().getNome()).setValor(acao.getValorNovo());
 							variaveis_auxiliares.add(acao.getVariavelAlvo());
-
 						}
 					}
 				}
