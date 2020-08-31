@@ -242,13 +242,14 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	}
 
 	private void estourarMemoria() {
-		for (Evento e : this.eventosLogMemoria) {
-			this.eventosLogDisco.add(e);
-			this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(e));
-			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().remove(0);
-			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().update();
-		}
-		this.eventosLogMemoria.clear();
+		this.colocarVariavelDoCacheNoDisco(this.variaveisCache.get(0).getNome(),true);
+//		for (Evento e : this.eventosLogMemoria) {
+//			this.eventosLogDisco.add(e);
+//			this.getGerenciadorTransacaoPanel().getLogDiscoHolder().addEvento(new EventoHolder(e));
+//			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().remove(0);
+//			this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().update();
+//		}
+//		this.eventosLogMemoria.clear();
 
 	}
 
