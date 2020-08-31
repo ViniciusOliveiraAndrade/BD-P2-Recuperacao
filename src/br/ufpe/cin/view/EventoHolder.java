@@ -33,6 +33,12 @@ public class EventoHolder extends JLabel{
 		case "VARIAVEL":
 			this.setText(evento.getVariavel().getNome()+ " = " + evento.getVariavel().getValor());
 			break;
+		case "ABORT":
+			this.setText("[ ABORT_TRANSACTION, T"+evento.getTransacao().getCod()+" ]");
+			break;
+		case "COMMIT":
+			this.setText("[ COMMIT_TRANSACTION, T"+evento.getTransacao().getCod()+" ]");
+			break;
 			
 		default:
 			break;

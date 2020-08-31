@@ -21,6 +21,16 @@ public class Evento {
 		this.transacao = transacao;
 		this.acao = acao;
 	}
+	
+	public Evento(Transacao transacao, boolean abort) {
+		super();
+		if(abort) {
+			this.tipo = StringVariables.TRANSACAO_ABORT.getValue();
+		}else {
+			this.tipo = StringVariables.TRANSACAO_COMMIT.getValue();
+		}
+		this.transacao = transacao;
+	}
 
 
 	public Evento(Checkpoint checkPoint) {

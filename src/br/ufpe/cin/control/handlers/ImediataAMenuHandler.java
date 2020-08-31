@@ -115,6 +115,13 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		this.eventosLogMemoria.add(e);
 		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().addEvento(new EventoHolder(e));
 	}
+	
+	private void adicionarEventoLogMemoria(Transacao transacao, boolean abort) {
+		Evento e = new Evento(transacao, abort);
+
+		this.eventosLogMemoria.add(e);
+		this.getGerenciadorTransacaoPanel().getLogMemoriaHolder().addEvento(new EventoHolder(e));
+	}
 
 	private void adicionarEventoLogMemoria(Acao acao) {
 		this.atual.getAcoes().add(acao);
@@ -157,8 +164,6 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		}
 		variavel.locked(this.atual.getCod());
 		
-		
-		
 		if ((String.valueOf(this.getAdicionarAcaoWindow().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_WRITE.getValue())) {
 			
 			if (!this.isVariavelCache(variavel.getNome())) {
@@ -171,17 +176,18 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			
 			long valor = Long.valueOf(this.getAdicionarAcaoWindow().getValorTextField().getText());
 			Acao acaoEscrita = new Acao(variavel, valor );
+//			System.out.println("Novo"+ valor + " Velho"+acaoEscrita.getValorVelho());
 			this.adicionarEventoLogMemoria(acaoEscrita);
 			this.getVariavelCache(variavel.getNome()).setValor(valor);
 			this.updateDisplayCache();
 			
-		} if ((String.valueOf(this.getAdicionarAcaoWindow().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_READ.getValue())) {
+		}else if ((String.valueOf(this.getAdicionarAcaoWindow().getTipoAcaoSpinner().getValue())).equals(StringVariables.ACAO_READ.getValue())) {
 			
 			Acao acaoLeitura = new Acao(variavel );
 			this.adicionarEventoLogMemoria(acaoLeitura);
 			
 			if (!this.isVariavelCache(variavel.getNome())) {
-				Variavel variavel_locked =new  Variavel(variavel.getNome(), variavel.getValor());
+				Variavel variavel_locked = new  Variavel(variavel.getNome(), variavel.getValor());
 				variavel_locked.locked(variavel.getTransacaoCod());
 				this.variaveisCache.add(variavel_locked );
 			}
@@ -220,6 +226,8 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		for (Variavel v : this.variaveisCache) {
 			this.getGerenciadorTransacaoPanel().getCacheHolder().addEvento(new EventoHolder(new Evento(v)));
 		}
+		
+		this.getGerenciadorTransacaoPanel().getCacheHolder().update();
 	}
 	
 	private void updateDisplayDisco(){
@@ -228,6 +236,16 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		for (Variavel v : this.variaveisDisco) {
 			this.getGerenciadorTransacaoPanel().getDiscoHolder().addEvento(new EventoHolder(new Evento(v)));
 		}
+		this.getGerenciadorTransacaoPanel().getDiscoHolder().update();
+	}
+	
+	private void updateDisplayTransacoes(){
+		this.getGerenciadorTransacaoPanel().getTransacoesHolder().removeAll();
+		
+		for (TransacaoHolder transacaoHolder : this.transacoes) {
+			this.getGerenciadorTransacaoPanel().getTransacoesHolder().add(transacaoHolder);
+		}
+		this.getGerenciadorTransacaoPanel().getTransacoesHolder().update();
 	}
 	
 	private boolean isVariavelCache(String nome) {
@@ -262,11 +280,19 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	}
 	
 	private void removerVariavelCache(String nome){
-		for (Variavel v : this.variaveisCache) {
-			if (v.getNome().equals(nome)) {
-				this.variaveisCache.remove(v);
+		int i = -1;
+		for (int j = this.variaveisCache.size()-1; j >= 0;j--) {
+			if ( this.variaveisCache.get(j).getNome().equals(nome)) {
+				i = j;
 			}
 		}
+		if(i > -1) {
+			this.variaveisCache.remove(i);
+//			System.out.println("Remove "+i+" do cache");
+		}
+		
+		this.updateDisplayCache();
+		this.updateDisplayDisco();
 	}
 	
 	private void colocarVariavelDoCacheNoDisco(String nomeVariável) {
@@ -275,20 +301,63 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			for (Variavel variavel_aux: this.variaveisDisco) {
 				if(variavel_aux.getNome().equals(variavel.getNome())) {
 					variavel_aux.setValor(variavel.getValor());
+					variavel_aux.unlock();
 					this.removerVariavelCache(nomeVariável);
-					this.updateDisplayCache();
-					this.updateDisplayDisco();
+					
 				}
 			}
 		}
 	}
 	
+//	private void colocarVariavelDoCacheNoDisco(String nomeVariável) {
+//		Variavel variavel = this.getVariavelCache(nomeVariável);
+//		if(variavel != null) {
+//			for (Variavel variavel_aux: this.variaveisDisco) {
+//				if(variavel_aux.getNome().equals(variavel.getNome())) {
+//					variavel_aux.setValor(variavel.getValor());
+//					variavel_aux.unlock();
+//					this.removerVariavelCache(nomeVariável);
+//					
+//				}
+//			}
+//		}
+//	}
+	
 	@Override
 	public void abortar(Transacao transacao) {
+		ArrayList<Variavel> variaveis_auxiliares = new ArrayList<Variavel>();
+		for (int i = transacao.getAcoes().size()-1; i >= 0; i-- ) {
+			Acao acao = transacao.getAcoes().get(i);
+			if (acao.getTipo().equals(StringVariables.ACAO_WRITE.getValue())) {
+				this.getVariavelCache(acao.getVariavelAlvo().getNome()).setValor(acao.getValorVelho());
+				variaveis_auxiliares.add(acao.getVariavelAlvo());
+			}
+		} 
 		
+		System.out.println("saiu do primeiro");
+		for(Variavel variavel_aux: variaveis_auxiliares) {
+			this.colocarVariavelDoCacheNoDisco(variavel_aux.getNome());
+		}
 		
+		this.updateDisplayCache();
+		this.updateDisplayDisco();
+		
+
+		int j = 0;
+		for(int i = this.transacoes.size()-1;i >=0; i--) {
+			if(this.transacoes.get(i).getT().getCod() == transacao.getCod()) {
+				this.transacoesAbortadas.add(this.transacoes.get(i));
+				this.getGerenciadorTransacaoPanel().getTransacoesHolder().remove(this.transacoes.get(i));
+				j = i;
+			}
+		}
+		this.transacoes.remove(j);
+		this.updateDisplayTransacoes();
+		this.adicionarEventoLogMemoria(this.atual,true);
 	}
 
+	
+	
 	@Override
 	public void commit(Transacao transacao) {
 		// TODO Auto-generated method stub
