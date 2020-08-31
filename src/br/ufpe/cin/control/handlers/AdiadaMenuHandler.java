@@ -292,7 +292,7 @@ public class AdiadaMenuHandler extends AbstractHandler {
 	public void update(Observable observable, Object arg) {
 		if (observable instanceof TransacaoHolderHandler) {
 			String tipo = (String) arg;
-			Transacao transacao = ((TransacaoHolderHandler) observable).getTransacaoHolder().getT();
+			Transacao transacao = ((TransacaoHolderHandler) observable).getTransacaoHolder().getTransacao();
 			this.transacaoAtual = transacao;
 			
 			switch (tipo) {

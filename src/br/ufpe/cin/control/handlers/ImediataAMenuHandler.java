@@ -311,7 +311,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 	private TransacaoHolder getTransacaoHolder(int transacaoCod) {
 		
 		for(int i = this.transacoes.size()-1;i >=0; i--) {
-			if(this.transacoes.get(i).getT().getCod() == transacaoCod) {
+			if(this.transacoes.get(i).getTransacao().getCod() == transacaoCod) {
 				return this.transacoes.get(i);
 				
 			}
@@ -348,9 +348,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 			}
 		}
 	}
-	
-	
-	
+		
 	@Override
 	public void abortar(Transacao transacao) {
 		ArrayList<Variavel> variaveis_auxiliares = new ArrayList<Variavel>();
@@ -389,6 +387,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		
 		this.updateDisplayTransacoes();
 		this.adicionarEventoLogMemoria(this.atual,true);
+		transacao.abortT();
 	}
 	
 	@Override
@@ -429,7 +428,7 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		
 		this.updateDisplayTransacoes();
 		this.adicionarEventoLogMemoria(this.atual,false);
-		
+		transacao.commitT();
 	}
 
 	@Override
@@ -495,14 +494,15 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		
 		if (o instanceof TransacaoHolderHandler) {
 			String tipo = (String) arg;
-			Transacao transacao = ((TransacaoHolderHandler) o).getTransacaoHolder().getT();
+			Transacao transacao = ((TransacaoHolderHandler) o).getTransacaoHolder().getTransacao();
 			this.atual = transacao;
 			
 			switch (tipo) {
 			case "INICIO":
-				
+				transacao.iniciarT();
 				this.adicionarEventoLogMemoria(transacao);
 				this.transacoesAtivas.add(this.getTransacaoHolder(transacao.getCod()));
+				
 				
 				break;
 			case "ACAO":
@@ -529,6 +529,19 @@ public class ImediataAMenuHandler extends AbstractHandler {
 //		System.out.println("Transcoes Abortadas: "+this.transacoesAbortadas.size());
 //		System.out.println("Transcoes Commitadas: "+this.transacoesComitadas.size());
 //		System.out.println("================================================");
+		
+//		System.out.println("======================");
+//		System.out.println("Abort");
+//		for (TransacaoHolder transacaoHolder: this.transacoesAbortadas) {
+//			System.out.println("T"+transacaoHolder.getTransacao().getCod()+" Tempo Abort: "+transacaoHolder.getTransacao().getTempoAbort());
+//		}
+//		System.out.println("======================");
+//		System.out.println("Commit");
+//		for (TransacaoHolder transacaoHolder: this.transacoesComitadas) {
+//			System.out.println("T"+transacaoHolder.getTransacao().getCod()+" Tempo Commit: "+transacaoHolder.getTransacao().getTempoCommit());
+//		}
+//		
+	
 	}
 
 	@Override
@@ -541,7 +554,5 @@ public class ImediataAMenuHandler extends AbstractHandler {
 		}
 		
 	}
-
-	
 
 }

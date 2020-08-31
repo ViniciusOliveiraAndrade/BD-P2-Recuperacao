@@ -8,13 +8,13 @@ public class Transacao {
 	
 	private long tempoInicio;
 	private long tempoAtualizacao;
+	private long tempoAbort;
 	private long tempoCommit;
 	
 	private ArrayList<Acao> acoes;
 	
 	public Transacao(int cod) {
 		this.cod = cod;
-		this.tempoInicio = System.currentTimeMillis();
 		this.acoes = new ArrayList<Acao>();
 	}
 	
@@ -27,12 +27,28 @@ public class Transacao {
 		}
 	}
 	
+	public void iniciarT(){
+		this.tempoInicio = System.currentTimeMillis();
+	}
+	
 	public void updateT(){
 		this.tempoAtualizacao = System.currentTimeMillis();
 	}
 	
 	public void commitT(){
 		this.tempoCommit = System.currentTimeMillis();
+	}
+	
+	public void abortT(){
+		this.tempoAbort = System.currentTimeMillis();
+	}
+
+	public long getTempoAbort() {
+		return tempoAbort;
+	}
+
+	public void setTempoAbort(long tempoAbort) {
+		this.tempoAbort = tempoAbort;
 	}
 
 	public int getCod() {

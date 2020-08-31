@@ -42,7 +42,7 @@ public class TransacaoHolder extends JPanel {
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 	}
 
-	public Transacao getT() {
+	public Transacao getTransacao() {
 		return transacao;
 	}
 
